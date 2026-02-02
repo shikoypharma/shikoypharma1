@@ -39,21 +39,22 @@ export default function ProductDetails() {
           className="lg:col-span-2"
         >
           <ProductImageSection image={product.image} productName={product.name} />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-2 lg:col-start-1 order-last lg:order-0"
-        >
-          <ProductInfo product={product} />
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-8"
+          >
+            <ProductInfo product={product} />
+          </motion.div>
         </motion.div>
 
         <motion.aside
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="lg:col-span-1 lg:row-span-2 lg:row-start-1"
+          className="lg:col-span-1"
         >
           <Card className="p-6 sticky top-24 border-l-4 border-blue-600 shadow-lg">
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Get in Touch</h3>

@@ -12,7 +12,8 @@ import OurAssociates from "./components/about/associates/OurAssociates";
 import Products from "./components/products/list/Products";
 import ProductCategory from "./components/products/list/ProductCategory";
 import ProductDetailPage from "./components/products/detail/ProductDetailPage";
-import ProductRedirectBySlug from "./components/products/detail/ProductRedirectBySlug";
+import ProductDetails from "./components/products/detail/ProductDetails";
+import QualityControl from "./components/infrastructure/qualityControl/QualityControl";
 
 const Section = ({ title }) => (
 
@@ -39,8 +40,8 @@ export default function App() {
         <Route path="/products" element={<Products/>} />
         <Route path="/products/:category" element={<ProductCategory/>} />
         <Route path="/products/:category/:slug" element={<ProductDetailPage/>} />
-        <Route path="/product/:slug" element={<ProductRedirectBySlug/>} />
-        <Route path="/products/psychiatry" element={<Section title="Psychiatry Products" />} />
+        <Route path="/product/:slug" element={<ProductDetails/>} />
+        <Route path="/infrastructure/quality-control" element={<QualityControl/>} />
         <Route path="/products/cardiac" element={<Section title="Cardiac Products" />} />
         <Route path="/infrastructure" element={<Section title="Infrastructure" />} />
         <Route path="/hcp" element={<Section title="Doctors / HCPs" />} />

@@ -24,7 +24,6 @@ export default function ProductPagination({ currentPage, totalPages, onPageChang
       animate={{ opacity: 1, y: 0 }}
       className="mt-12 flex justify-center items-center gap-2"
     >
-      {/* Previous Button */}
       <button
         onClick={handlePreviousClick}
         disabled={currentPage === 1}

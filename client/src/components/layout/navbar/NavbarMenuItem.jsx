@@ -3,19 +3,32 @@ import {
   NavigationMenuTrigger,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavbarMegaMenu from "./NavbarMegaMenu";
 
 export default function NavbarMenuItem({ menu }) {
+  const navigate = useNavigate();
+
+  const handleProductsClick = () => {
+    navigate(menu.basePath);
+  };
+
   return (
     <NavigationMenuItem>
       {menu.mega ? (
         <>
-          <NavigationMenuTrigger>
-            <Link to={menu.basePath} className="px-2 py-1 text-sm font-medium">
+          {menu.basePath === "/products" ? (
+            <NavigationMenuTrigger 
+              className="px-2 py-1 text-sm font-medium cursor-pointer"
+              onClick={handleProductsClick}
+            >
               {menu.label}
-            </Link>
-          </NavigationMenuTrigger>
+            </NavigationMenuTrigger>
+          ) : (
+            <NavigationMenuTrigger className="px-2 py-1 text-sm font-medium">
+              {menu.label}
+            </NavigationMenuTrigger>
+          )}
           <NavbarMegaMenu menu={menu} />
         </>
       ) : (

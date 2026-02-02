@@ -38,7 +38,6 @@ export default function ProductDetailPage() {
   return (
     <PageLayout title={product.name}>
       <div className="max-w-6xl mx-auto">
-        {/* Breadcrumb */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -62,7 +61,6 @@ export default function ProductDetailPage() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Product Image */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -82,13 +80,12 @@ export default function ProductDetailPage() {
             </Card>
           </motion.div>
 
-          {/* Product Details */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="space-y-6"
           >
-            {/* Title and Category */}
+
             <div>
               <p className="text-sm font-medium text-blue-600 mb-2">
                 {categoryData.name}
@@ -99,7 +96,6 @@ export default function ProductDetailPage() {
               <p className="text-base text-gray-700">{product.composition}</p>
             </div>
 
-            {/* Strength Badge */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -111,7 +107,6 @@ export default function ProductDetailPage() {
               </span>
             </motion.div>
 
-            {/* About Product */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -131,7 +126,7 @@ export default function ProductDetailPage() {
               </p>
             </motion.div>
 
-            {/* Category Description */}
+
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -146,7 +141,6 @@ export default function ProductDetailPage() {
               </p>
             </motion.div>
 
-            {/* How It Works */}
             {categoryData.howItWorks && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -163,7 +157,6 @@ export default function ProductDetailPage() {
               </motion.div>
             )}
 
-            {/* Benefits */}
             {categoryData.benefits && categoryData.benefits.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -180,7 +173,7 @@ export default function ProductDetailPage() {
                       key={idx}
                       className="flex items-start gap-3 text-gray-700"
                     >
-                      <span className="text-purple-600 font-bold mt-0.5 flex-shrink-0">
+                      <span className="text-purple-600 font-bold mt-0.5 shrink-0">
                         ✓
                       </span>
                       <span>{benefit}</span>
@@ -190,7 +183,6 @@ export default function ProductDetailPage() {
               </motion.div>
             )}
 
-            {/* CTA Button */}
             <motion.button
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -203,7 +195,6 @@ export default function ProductDetailPage() {
           </motion.div>
         </div>
 
-        {/* Related Products */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
