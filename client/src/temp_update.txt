@@ -1,0 +1,5 @@
+Add after line 14 (ProductCategory import):
+import ProductDetailPage from "@/components/products/ProductDetailPage";
+
+Add after line 41 (ProductCategory route):
+<Route path="/products/:category/:slug" element={<ProductDetailPage/>} />
