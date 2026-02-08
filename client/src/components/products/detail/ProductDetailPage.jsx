@@ -19,7 +19,7 @@ export default function ProductDetailPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="py-12 text-center space-y-4"
+          className="py-10 text-center space-y-4"
         >
           <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900">
             Product not found

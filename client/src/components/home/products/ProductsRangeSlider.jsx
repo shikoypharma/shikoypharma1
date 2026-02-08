@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 
 export default function ProductRangeSlider() {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-10 bg-white">
       <div className="max-w-7xl mx-auto px-4">
 
         <div className=" py-4 mb-10">

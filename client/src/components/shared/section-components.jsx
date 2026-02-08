@@ -28,7 +28,7 @@ export function SectionHeader({ title, subtitle, centered = true }) {
 
 export function SectionWrapper({ children, className = "", bgColor = "bg-white" }) {
   return (
-    <section className={`py-16 lg:py-20 ${bgColor} ${className}`}>
+    <section className={`py-8 lg:py-10 ${bgColor} ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {children}
       </div>

@@ -84,15 +84,18 @@ export const NAVBAR_DATA = [
       ],
     },
   },
-
+  {
+    label: "For Doctors HCP",
+    link: "/doctors",
+  },
   {
     label: "Our Expertise / Services",
     basePath: "/services",
     mega: {
       columns: [
-        [{ label: "Third Party Manufacturing", path: "third-party" }],
-        [{ label: "PCD Pharma Franchise", path: "pcd-franchise" }],
-        [{ label: "Pharmaceutical Exporter", path: "exporter" }],
+        [{ label: "Third Party Manufacturing", path: "third-party-manufacturing" }],
+        [{ label: "PCD Pharma Franchise", path: "pcd-pharma-franchise" }],
+        [{ label: "Pharmaceutical Exporter", path: "pharmaceutical-exporter" }],
       ],
     },
   },

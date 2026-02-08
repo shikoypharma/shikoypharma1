@@ -21,7 +21,7 @@ export default function ProductDetails() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="py-12 text-center"
+          className="py-10 text-center"
         >
           <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900">Product not found</h2>
           <p className="mt-4 text-gray-600">Try browsing the <Link to="/products" className="text-blue-600 hover:underline font-semibold">products list</Link>.</p>
@@ -39,7 +39,7 @@ export default function ProductDetails() {
           className="lg:col-span-2"
         >
           <ProductImageSection image={product.image} productName={product.name} />
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ function ProductEnquiryForm({ productName }) {
     setLoading(true);
     const payload = { ...form, product: productName };
     console.log("Enquiry submitted:", payload);
-    
+
     setTimeout(() => {
       alert("Thank you! Your enquiry has been submitted. We'll contact you soon.");
       setForm({ name: "", email: "", phone: "", message: "" });

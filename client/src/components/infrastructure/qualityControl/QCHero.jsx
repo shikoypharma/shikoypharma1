@@ -5,7 +5,7 @@ export default function QCHero({ data }) {
     <motion.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mb-16 py-12 bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg"
+      className="mb-10 py-8 bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg"
     >
       <div className="max-w-4xl mx-auto px-4 text-center">
         <motion.h1

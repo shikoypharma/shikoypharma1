@@ -14,7 +14,7 @@ export default function ProductCategory() {
   const [selectedComposition, setSelectedComposition] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
-  
+
   const categoryData = PRODUCT_CATEGORIES_DATA[category];
 
   const uniqueCompositions = useMemo(() => {
@@ -24,10 +24,10 @@ export default function ProductCategory() {
 
   const filteredProducts = useMemo(() => {
     if (!categoryData?.products) return [];
-    
+
     return categoryData.products.filter((product) => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          product.composition.toLowerCase().includes(searchQuery.toLowerCase());
+        product.composition.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesComposition = selectedComposition === "all" || product.composition === selectedComposition;
       return matchesSearch && matchesComposition;
     });
@@ -50,7 +50,7 @@ export default function ProductCategory() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="py-12 text-center"
+          className="py-10 text-center"
         >
           <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900">Category not found</h2>
         </motion.div>
@@ -60,7 +60,7 @@ export default function ProductCategory() {
 
   return (
     <PageLayout title={categoryData.name}>
- 
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -131,51 +131,51 @@ export default function ProductCategory() {
         {paginatedProducts.length > 0 ? (
           <>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {paginatedProducts?.map((product, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ y: -4 }}
-            >
-              <Card 
-                className="p-0 h-full overflow-hidden border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
-                onClick={() => {
-                  const productSlug = product.name.toLowerCase().replace(/\s+/g, "-");
-                  navigate(`/products/${category}/${productSlug}`);
-                }}
-              >
-                {product.image && (
-                  <div className="w-full h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23e5e7eb' width='200' height='200'/%3E%3Ctext x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='14' fill='%239ca3af'%3ENo Image%3C/text%3E%3C/svg%3E";
-                      }}
-                    />
-                  </div>
-                )}
-                <div className="p-6 space-y-3">
-                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    {product.composition}
-                  </p>
-                  <p className="text-xs font-medium text-blue-600 pt-2 border-t border-gray-100">
-                    {product.strength}
-                  </p>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+              {paginatedProducts?.map((product, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                  whileHover={{ y: -4 }}
+                >
+                  <Card
+                    className="p-0 h-full overflow-hidden border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                    onClick={() => {
+                      const productSlug = product.name.toLowerCase().replace(/\s+/g, "-");
+                      navigate(`/products/${category}/${productSlug}`);
+                    }}
+                  >
+                    {product.image && (
+                      <div className="w-full h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          onError={(e) => {
+                            e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23e5e7eb' width='200' height='200'/%3E%3Ctext x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='14' fill='%239ca3af'%3ENo Image%3C/text%3E%3C/svg%3E";
+                          }}
+                        />
+                      </div>
+                    )}
+                    <div className="p-6 space-y-3">
+                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        {product.name}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {product.composition}
+                      </p>
+                      <p className="text-xs font-medium text-blue-600 pt-2 border-t border-gray-100">
+                        {product.strength}
+                      </p>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
             </div>
 
-            <ProductPagination 
+            <ProductPagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage}
@@ -185,7 +185,7 @@ export default function ProductCategory() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="py-16 text-center"
+            className="py-10 text-center"
           >
             <p className="text-xl text-gray-600 font-medium">No products found matching your filters.</p>
             <button

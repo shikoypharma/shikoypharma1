@@ -18,7 +18,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section className="relative min-h-[600px] lg:min-h-[700px] overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id}
