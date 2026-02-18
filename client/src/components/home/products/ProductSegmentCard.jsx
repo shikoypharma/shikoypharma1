@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function ProductSegmentCard({ segment, index }) {
   return (
@@ -11,27 +12,33 @@ export default function ProductSegmentCard({ segment, index }) {
       whileHover={{ y: -6 }}
       className="h-full"
     >
-      <Card className="h-full overflow-hidden border-l-4 border-blue-600 shadow-md hover:shadow-xl transition-all duration-300">
-        <div className="h-40 sm:h-48 overflow-hidden bg-gray-100">
-          <img
-            src={segment.image}
-            alt={segment.name}
-            className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-          />
-        </div>
+      <Link to={segment.link || "/product-gallery"}>
+        <Card className="h-full overflow-hidden border-l-4 border-blue-600 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer">
+          <div className="h-40 sm:h-48 overflow-hidden bg-gray-100 flex items-center justify-center">
+            <img
+              src={segment.image}
+              alt={segment.name}
+              className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "/segment-placeholder.png";
+              }}
+            />
+          </div>
 
-        <CardHeader>
-          <CardTitle className="text-lg sm:text-xl text-center text-blue-700">
-            {segment.name}
-          </CardTitle>
-        </CardHeader>
+          <CardHeader>
+            <CardTitle className="text-lg sm:text-xl text-center text-blue-700">
+              {segment.name}
+            </CardTitle>
+          </CardHeader>
 
-        <CardContent>
-          <p className="text-sm text-gray-600 leading-relaxed">
-            {segment.description}
-          </p>
-        </CardContent>
-      </Card>
+          <CardContent>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              {segment.description}
+            </p>
+          </CardContent>
+        </Card>
+      </Link>
     </motion.div>
   );
 }

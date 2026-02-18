@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function FooterSection({ title, items }) {
   return (
@@ -17,9 +18,13 @@ export default function FooterSection({ title, items }) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.05 }}
-            className="text-gray-300 text-sm hover:text-blue-400 transition-colors cursor-pointer"
           >
-            {item}
+            <Link
+              to={item.href || '#'}
+              className="text-gray-400 text-sm hover:text-blue-400 transition-colors cursor-pointer block"
+            >
+              {item.label}
+            </Link>
           </motion.li>
         ))}
       </ul>

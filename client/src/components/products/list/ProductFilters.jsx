@@ -1,13 +1,21 @@
 import { motion } from "framer-motion";
 
 export default function ProductFilters({
-  searchQuery="",
+  searchQuery = "",
   setSearchQuery,
-  selectedComposition="all",
+  // Category Filter Props
+  showCategoryFilter = false,
+  selectedCategory = "All",
+  setSelectedCategory,
+  categories = [],
+  // Composition Filter Props
+  showCompositionFilter = false,
+  selectedComposition = "all",
   setSelectedComposition,
-  uniqueCompositions=[],
-  filteredProducts=[],
-  paginatedProducts=[],
+  compositions = [],
+  // Common Props
+  filteredCount = 0,
+  paginatedCount = 0,
   onReset,
   setCurrentPage,
 }) {
@@ -16,8 +24,13 @@ export default function ProductFilters({
     setCurrentPage(1);
   };
 
+  const handleCategoryChange = (e) => {
+    if (setSelectedCategory) setSelectedCategory(e.target.value);
+    setCurrentPage(1);
+  };
+
   const handleCompositionChange = (e) => {
-    setSelectedComposition(e.target.value);
+    if (setSelectedComposition) setSelectedComposition(e.target.value);
     setCurrentPage(1);
   };
 
@@ -35,30 +48,52 @@ export default function ProductFilters({
           </label>
           <input
             type="text"
-            placeholder="Product name or composition..."
+            placeholder="Product name, brand, or description..."
             value={searchQuery}
             onChange={handleSearchChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Filter by Composition
-          </label>
-          <select
-            value={selectedComposition}
-            onChange={handleCompositionChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="all">All Compositions</option>
-            {uniqueCompositions.map((comp) => (
-              <option key={comp} value={comp}>
-                {comp}
-              </option>
-            ))}
-          </select>
-        </div>
+        {showCategoryFilter && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Filter by Category
+            </label>
+            <select
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="All">All Categories</option>
+              {categories.map((cat, index) => (
+                <option key={index} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {showCompositionFilter && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Filter by Composition
+            </label>
+            <select
+              value={selectedComposition}
+              onChange={handleCompositionChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All Compositions</option>
+              {compositions.map((comp, index) => (
+                <option key={index} value={comp}>
+                  {comp}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div className="flex items-end">
           <button
@@ -71,7 +106,7 @@ export default function ProductFilters({
       </div>
 
       <div className="mt-4 text-sm text-gray-600 font-medium">
-        Found {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} (Showing {paginatedProducts.length} on this page)
+        Found {filteredCount} product{filteredCount !== 1 ? 's' : ''} (Showing {paginatedCount} on this page)
       </div>
     </motion.div>
   );

@@ -1,37 +1,61 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import PageLayout from "@/components/layout/pageLayout/pageLayout";
 import { Card } from "@/components/ui/card";
-import { PRODUCT_CATEGORIES_DATA } from "@/data/products/productCategories.data";
 import ProductFilters from "./ProductFilters";
 import ProductPagination from "./ProductPagination";
 
 export default function ProductCategory() {
-  const { category } = useParams();
+  const { category: categorySlug } = useParams();
   const navigate = useNavigate();
+  const [categoryData, setCategoryData] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedComposition, setSelectedComposition] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
 
-  const categoryData = PRODUCT_CATEGORIES_DATA[category];
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // 1. Fetch Category Details by Slug
+        const { data: catData } = await axios.get(`/api/product-categories/slug/${categorySlug}`);
+        setCategoryData(catData);
+
+        // 2. Fetch Products by Category Name (assuming product.category matches categoryData.name)
+        if (catData) {
+          const { data: prodData } = await axios.get(`/api/products/category/${encodeURIComponent(catData.name)}`);
+          setProducts(prodData);
+        }
+      } catch (error) {
+        console.error("Error fetching category or products", error);
+        // If category not found by slug, it might be a direct category name match attempt or handle error
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, [categorySlug]);
 
   const uniqueCompositions = useMemo(() => {
-    if (!categoryData?.products) return [];
-    return [...new Set(categoryData.products.map((p) => p.composition))];
-  }, [categoryData]);
+    if (!products) return [];
+    // Ensure composition exists
+    return [...new Set(products.filter(p => p.composition).map((p) => p.composition))];
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
-    if (!categoryData?.products) return [];
+    if (!products) return [];
 
-    return categoryData.products.filter((product) => {
+    return products.filter((product) => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.composition.toLowerCase().includes(searchQuery.toLowerCase());
+        (product.composition && product.composition.toLowerCase().includes(searchQuery.toLowerCase()));
       const matchesComposition = selectedComposition === "all" || product.composition === selectedComposition;
       return matchesSearch && matchesComposition;
     });
-  }, [categoryData, searchQuery, selectedComposition]);
+  }, [products, searchQuery, selectedComposition]);
 
 
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -43,6 +67,19 @@ export default function ProductCategory() {
     setSelectedComposition("all");
     setCurrentPage(1);
   };
+
+  if (loading) {
+    return (
+      <PageLayout title="Loading...">
+        <div className="p-20 text-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-gray-200 rounded w-1/4 mx-auto"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 
   if (!categoryData) {
     return (
@@ -119,11 +156,12 @@ export default function ProductCategory() {
         <ProductFilters
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          showCompositionFilter={true}
           selectedComposition={selectedComposition}
           setSelectedComposition={setSelectedComposition}
-          uniqueCompositions={uniqueCompositions}
-          filteredProducts={filteredProducts}
-          paginatedProducts={paginatedProducts}
+          compositions={uniqueCompositions}
+          filteredCount={filteredProducts.length}
+          paginatedCount={paginatedProducts.length}
           onReset={handleReset}
           setCurrentPage={setCurrentPage}
         />
@@ -143,20 +181,26 @@ export default function ProductCategory() {
                   <Card
                     className="p-0 h-full overflow-hidden border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
                     onClick={() => {
-                      const productSlug = product.name.toLowerCase().replace(/\s+/g, "-");
-                      navigate(`/products/${category}/${productSlug}`);
+                      // Assuming product detail page still matches
+                      const productSlug = product.slug || product.name.toLowerCase().replace(/\s+/g, "-");
+                      navigate(`/products/${categorySlug}/${productSlug}`);
                     }}
                   >
-                    {product.image && (
+                    {product.images && product.images.length > 0 ? (
                       <div className="w-full h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
                         <img
-                          src={product.image}
+                          src={product.images[0]}
                           alt={product.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           onError={(e) => {
-                            e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23e5e7eb' width='200' height='200'/%3E%3Ctext x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='14' fill='%239ca3af'%3ENo Image%3C/text%3E%3C/svg%3E";
+                            e.target.onerror = null;
+                            e.target.src = "/product-placeholder.png";
                           }}
                         />
+                      </div>
+                    ) : (
+                      <div className="w-full h-48 bg-gray-100 overflow-hidden flex items-center justify-center text-gray-400">
+                        No Image
                       </div>
                     )}
                     <div className="p-6 space-y-3">
@@ -167,7 +211,7 @@ export default function ProductCategory() {
                         {product.composition}
                       </p>
                       <p className="text-xs font-medium text-blue-600 pt-2 border-t border-gray-100">
-                        {product.strength}
+                        {product.brand || ""}
                       </p>
                     </div>
                   </Card>
@@ -187,7 +231,7 @@ export default function ProductCategory() {
             animate={{ opacity: 1, y: 0 }}
             className="py-10 text-center"
           >
-            <p className="text-xl text-gray-600 font-medium">No products found matching your filters.</p>
+            <p className="text-xl text-gray-600 font-medium">No products found for this category.</p>
             <button
               onClick={handleReset}
               className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"

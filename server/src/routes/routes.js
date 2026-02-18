@@ -87,96 +87,116 @@ import {
     createContactPage,
     updateContactPage
 } from '../controllers/contactPageController.js';
+import {
+    login,
+    logout,
+    getMe
+} from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
+import {
+    getContent,
+    updateContent
+} from '../controllers/pageContentController.js';
+
 
 const router = express.Router();
 
+// Auth Routes
+router.post('/auth/login', login);
+router.post('/auth/logout', logout);
+router.get('/auth/me', protect, getMe);
+
 // Global Routes
 router.get('/global', getGlobalData);
-router.post('/global', createGlobalData);
-router.put('/global', updateGlobalData);
+router.post('/global', protect, createGlobalData);
+router.put('/global', protect, updateGlobalData);
 
 // Home Routes
 router.get('/home', getHomeData);
-router.post('/home', createHomeData);
-router.put('/home', updateHomeData);
+router.post('/home', protect, createHomeData);
+router.put('/home', protect, updateHomeData);
 
 // Product Routes
 router.get('/products', getProducts);
-router.post('/products', createProduct);
+router.post('/products', protect, createProduct);
 router.get('/products/slug/:slug', getProductBySlug); // Explicit path for slug
 router.get('/products/:slug', getProductBySlug); // Keep existing for backward compatibility if needed, but risky with :id
 router.get('/products/id/:id', getProductById);
 router.get('/products/category/:category', getProductsByCategory);
-router.put('/products/:id', updateProduct);
-router.delete('/products/:id', deleteProduct);
+router.put('/products/:id', protect, updateProduct);
+router.delete('/products/:id', protect, deleteProduct);
 
 // About Routes
 router.get('/about', getAbout);
-router.post('/about', createAbout);
+router.post('/about', protect, createAbout);
 router.get('/about/:id', getAboutById);
-router.put('/about/:id', updateAbout);
-router.delete('/about/:id', deleteAbout);
+router.put('/about/:id', protect, updateAbout);
+router.delete('/about/:id', protect, deleteAbout);
 
 // Career Routes
 router.get('/career', getCareers);
-router.post('/career', createCareer);
+router.post('/career', protect, createCareer);
 router.get('/career/:id', getCareerById);
-router.put('/career/:id', updateCareer);
-router.delete('/career/:id', deleteCareer);
+router.put('/career/:id', protect, updateCareer);
+router.delete('/career/:id', protect, deleteCareer);
 
 // Expertise Routes
 router.get('/expertise', getExpertise);
-router.post('/expertise', createExpertise);
+router.post('/expertise', protect, createExpertise);
 router.get('/expertise/:id', getExpertiseById);
-router.put('/expertise/:id', updateExpertise);
-router.delete('/expertise/:id', deleteExpertise);
+router.put('/expertise/:id', protect, updateExpertise);
+router.delete('/expertise/:id', protect, deleteExpertise);
 
 // Gallery Routes
 router.get('/gallery', getGallery);
-router.post('/gallery', createGallery);
+router.post('/gallery', protect, createGallery);
 router.get('/gallery/:id', getGalleryById);
-router.put('/gallery/:id', updateGallery);
-router.delete('/gallery/:id', deleteGallery);
+router.put('/gallery/:id', protect, updateGallery);
+router.delete('/gallery/:id', protect, deleteGallery);
 
 // Infrastructure Routes
 router.get('/infrastructure', getInfrastructure);
-router.post('/infrastructure', createInfrastructure);
+router.post('/infrastructure', protect, createInfrastructure);
 router.get('/infrastructure/:id', getInfrastructureById);
-router.put('/infrastructure/:id', updateInfrastructure);
-router.delete('/infrastructure/:id', deleteInfrastructure);
+router.put('/infrastructure/:id', protect, updateInfrastructure);
+router.delete('/infrastructure/:id', protect, deleteInfrastructure);
 
 // Inquiry Routes
-router.get('/inquiry', getInquiries);
-router.post('/inquiry', createInquiry);
-router.get('/inquiry/:id', getInquiryById);
-router.put('/inquiry/:id/status', updateInquiryStatus);
-router.delete('/inquiry/:id', deleteInquiry);
+router.get('/inquiry', protect, getInquiries); // Protect listening inquiries
+router.post('/inquiry', createInquiry); // Public submit
+router.get('/inquiry/:id', protect, getInquiryById);
+router.put('/inquiry/:id/status', protect, updateInquiryStatus);
+router.delete('/inquiry/:id', protect, deleteInquiry);
 
 // Doctor Resource Routes
 router.get('/doctor-resources', getDoctorResources);
-router.post('/doctor-resources', createDoctorResource);
+router.post('/doctor-resources', protect, createDoctorResource);
 router.get('/doctor-resources/:id', getDoctorResourceById);
-router.put('/doctor-resources/:id', updateDoctorResource);
-router.delete('/doctor-resources/:id', deleteDoctorResource);
+router.put('/doctor-resources/:id', protect, updateDoctorResource);
+router.delete('/doctor-resources/:id', protect, deleteDoctorResource);
 
 // Product Category Routes
 router.get('/product-categories', getProductCategories);
-router.post('/product-categories', createProductCategory);
+router.post('/product-categories', protect, createProductCategory);
 router.get('/product-categories/slug/:slug', getProductCategoryBySlug);
 router.get('/product-categories/:id', getProductCategoryById);
-router.put('/product-categories/:id', updateProductCategory);
-router.delete('/product-categories/:id', deleteProductCategory);
+router.put('/product-categories/:id', protect, updateProductCategory);
+router.delete('/product-categories/:id', protect, deleteProductCategory);
 
 // Event Routes
 router.get('/events', getEvents);
-router.post('/events', createEvent);
+router.post('/events', protect, createEvent);
 router.get('/events/:id', getEventById);
-router.put('/events/:id', updateEvent);
-router.delete('/events/:id', deleteEvent);
+router.put('/events/:id', protect, updateEvent);
+router.delete('/events/:id', protect, deleteEvent);
 
 // Contact Page Routes
 router.get('/contact-page', getContactPage);
-router.post('/contact-page', createContactPage);
-router.put('/contact-page', updateContactPage);
+router.post('/contact-page', protect, createContactPage);
+router.put('/contact-page', protect, updateContactPage);
+
+// Page Content Routes
+router.get('/content/:section', getContent);
+router.put('/content/:section', protect, updateContent);
 
 export default router;

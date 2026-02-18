@@ -13,7 +13,7 @@ export default function ProductInfo({ product }) {
 
       <div className="space-y-3 p-6 bg-gray-50 rounded-lg border border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900">About {product.name}</h3>
-        <p className="text-gray-700 leading-relaxed">{product.description || `${product.name} is a formulation of ${product.composition}.`}</p>
+        <p className="text-gray-700 leading-relaxed whitespace-pre-line">{product.description || `${product.name} is a high-quality pharmaceutical product designed for ${product.category?.toLowerCase() || 'general'} use. It contains ${product.composition}.`}</p>
       </div>
     </div>
   );

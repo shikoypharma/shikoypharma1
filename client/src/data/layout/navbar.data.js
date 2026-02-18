@@ -101,5 +101,6 @@ export const NAVBAR_DATA = [
   },
 
   { label: "Gallery", link: "/gallery" },
+  { label: "Product Gallery", link: "/product-gallery" },
   { label: "Contact Us", link: "/contact" },
 ];

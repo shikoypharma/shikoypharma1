@@ -22,21 +22,26 @@ export default function MissionCard({ section, index }) {
         </CardHeader>
 
         <CardContent className="grow">
-          <ul className="space-y-3">
-            {section.points?.map((point, idx) => (
-              <motion.li
-                key={idx}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className="flex gap-3 items-start text-gray-700"
-              >
-                <span className="text-lg leading-none mt-1 text-blue-600 shrink-0">•</span>
-                <span className="text-sm leading-relaxed">{point}</span>
-              </motion.li>
-            ))}
-          </ul>
+          <div className="text-gray-700 leading-relaxed text-sm whitespace-pre-wrap">
+            {section.description}
+          </div>
+          {section.points && section.points.length > 0 && (
+            <ul className="space-y-3 mt-4">
+              {section.points.map((point, idx) => (
+                <motion.li
+                  key={idx}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="flex gap-3 items-start text-gray-700"
+                >
+                  <span className="text-lg leading-none mt-1 text-blue-600 shrink-0">•</span>
+                  <span className="text-sm leading-relaxed">{point}</span>
+                </motion.li>
+              ))}
+            </ul>
+          )}
         </CardContent>
       </Card>
     </motion.div>

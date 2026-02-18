@@ -7,22 +7,26 @@ export default function ProductTableRow({ product, slug, index }) {
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.03 }}
+      transition={{ duration: 0.2 }}
       className="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors duration-200"
     >
       <td className="px-4 sm:px-6 py-4 border-b align-top">
-        <div className="text-sm font-semibold text-slate-800 hover:text-blue-600">
+        <div className="text-sm font-semibold text-slate-800">
+          {product.composition || "-"}
+        </div>
+        <div className="text-xs text-gray-500 mt-1">
+          {product.packing}
+        </div>
+      </td>
+      <td className="px-4 sm:px-6 py-4 border-b align-top whitespace-nowrap">
+        <div className="text-sm font-bold text-blue-600 hover:text-blue-800">
           <Link to={slug} className="hover:underline">
             {product.name}
           </Link>
         </div>
-        <div className="text-xs text-gray-600 mt-1 line-clamp-2">
-          {product.description}
-        </div>
-      </td>
-      <td className="px-4 sm:px-6 py-4 border-b align-top whitespace-nowrap">
-        <div className="text-sm font-bold text-slate-800">{product.brand}</div>
-        <div className="text-xs text-gray-500 mt-1">{product.segment}</div>
+        {product.brand && (
+          <div className="text-xs text-gray-500 mt-1">{product.brand}</div>
+        )}
       </td>
     </motion.tr>
   );

@@ -1,48 +1,83 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import axios from "axios";
 import PageLayout from "@/components/layout/pageLayout/pageLayout";
-import { PRODUCTS_DATA } from "@/data/products/products.data";
 import { motion } from "framer-motion";
 import { slugify } from "@/lib/slugify";
 import ProductFilters from "./ProductFilters";
 import ProductTableRow from "./ProductTableRow";
 
 export default function Products() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
-  const [segment, setSegment] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const segments = PRODUCTS_DATA.segments;
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const { data } = await axios.get("/api/products");
+      setProducts(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching products", error);
+      setLoading(false);
+    }
+  };
+
+  const categories = useMemo(() => {
+    const uniqueCategories = [...new Set(products.map(p => p.category))];
+    return uniqueCategories.filter(Boolean).sort();
+  }, [products]);
 
   const filtered = useMemo(() => {
-    return PRODUCTS_DATA.products.filter((p) => {
-      if (segment !== "All" && p.segment !== segment) return false;
+    return products.filter((p) => {
+      // Filter by Category
+      if (selectedCategory !== "All" && p.category !== selectedCategory) return false;
+
+      // Filter by Search Query
       if (!query) return true;
       const q = query.toLowerCase();
       return (
         p.name.toLowerCase().includes(q) ||
         (p.brand && p.brand.toLowerCase().includes(q)) ||
-        p.description.toLowerCase().includes(q) ||
-        p.segment.toLowerCase().includes(q)
+        (p.description && p.description.toLowerCase().includes(q)) ||
+        (p.composition && p.composition.toLowerCase().includes(q)) ||
+        (p.category && p.category.toLowerCase().includes(q))
       );
     });
-  }, [query, segment]);
+  }, [query, selectedCategory, products]);
+
+  const handleReset = () => {
+    setQuery("");
+    setSelectedCategory("All");
+  };
+
+  if (loading) return <div className="p-10 text-center">Loading products...</div>;
 
   return (
-    <PageLayout title={PRODUCTS_DATA.title}>
+    <PageLayout title="Our Products">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-6 p-4 bg-blue-50 rounded-lg"
       >
-        <p className="text-sm text-gray-700">{PRODUCTS_DATA.description}</p>
+        <p className="text-sm text-gray-700">Browse our product catalog. Use search and filters to quickly find items.</p>
       </motion.div>
 
       <ProductFilters
-        query={query}
-        onQueryChange={setQuery}
-        segment={segment}
-        onSegmentChange={setSegment}
-        segments={segments}
+        searchQuery={query}
+        setSearchQuery={setQuery}
+        showCategoryFilter={true}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        categories={categories}
         filteredCount={filtered.length}
+        paginatedCount={filtered.length} // Simplified for now since pagination wasn't fully implemented in parent
+        onReset={handleReset}
+        setCurrentPage={() => { }}
       />
 
       <div className="overflow-x-auto bg-white shadow-md rounded-lg border border-gray-200">
@@ -56,10 +91,10 @@ export default function Products() {
           <tbody>
             {filtered.length > 0 ? (
               filtered.map((p, idx) => {
-                const slug = `/product/${slugify(p.brand || p.name)}`;
+                const slug = `/product/${p.slug || slugify(p.name)}`;
                 return (
                   <ProductTableRow
-                    key={p.id}
+                    key={p._id}
                     product={p}
                     slug={slug}
                     index={idx}
