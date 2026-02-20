@@ -1,19 +1,70 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import PageLayout from "@/components/layout/pageLayout/pageLayout";
 import { Card } from "@/components/ui/card";
-import { PRODUCT_CATEGORIES_DATA } from "@/data/products/productCategories.data";
 
 export default function ProductDetailPage() {
   const { category, slug } = useParams();
   const navigate = useNavigate();
+  const [product, setProduct] = useState(null);
+  const [categoryData, setCategoryData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
-  const categoryData = PRODUCT_CATEGORIES_DATA[category];
-  const product = categoryData?.products?.find(
-    (p) => p.name.toLowerCase().replace(/\s+/g, "-") === slug
-  );
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // 1. Fetch Product by Slug
+        const { data: prodData } = await axios.get(`/api/products/slug/${slug}`);
+        setProduct(prodData);
 
-  if (!categoryData || !product) {
+        // 2. Fetch Category Data (optional, for context)
+        // If we have category name from params, we can try to fetch category details
+        if (category) {
+          try {
+            const { data: catData } = await axios.get(`/api/product-categories/slug/${category}`);
+            setCategoryData(catData);
+          } catch (err) {
+            console.warn("Category fetch failed", err);
+            // Fallback: create minimal category object from product data if available
+            if (prodData && prodData.category) {
+              setCategoryData({ name: prodData.category });
+            }
+          }
+        }
+
+        // 3. Fetch Related Products (same category)
+        if (prodData && prodData.category) {
+          const { data: related } = await axios.get(`/api/products/category/${encodeURIComponent(prodData.category)}`);
+          setRelatedProducts(related.filter(p => p._id !== prodData._id));
+        }
+
+      } catch (error) {
+        console.error("Error fetching product details", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [slug, category]);
+
+
+  if (loading) {
+    return (
+      <PageLayout title="Loading...">
+        <div className="py-20 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-500">Loading product details...</p>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  if (!product) {
     return (
       <PageLayout title="Product Not Found">
         <motion.div
@@ -35,6 +86,9 @@ export default function ProductDetailPage() {
     );
   }
 
+  // Fallback category name if categoryData is missing
+  const categoryName = categoryData?.name || product.category || category;
+
   return (
     <PageLayout title={product.name}>
       <div className="max-w-6xl mx-auto">
@@ -54,7 +108,7 @@ export default function ProductDetailPage() {
             onClick={() => navigate(`/products/${category}`)}
             className="hover:text-blue-600 transition-colors"
           >
-            {categoryData.name}
+            {categoryName}
           </button>
           <span>/</span>
           <span className="text-gray-900 font-medium">{product.name}</span>
@@ -68,12 +122,12 @@ export default function ProductDetailPage() {
             <Card className="p-6 overflow-hidden border-l-4 border-blue-600 sticky top-24">
               <div className="w-full h-96 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
                 <img
-                  src={product.image}
+                  src={product.images?.[0] || "/product-placeholder.png"}
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   onError={(e) => {
-                    e.target.src =
-                      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23e5e7eb' width='400' height='400'/%3E%3Ctext x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%239ca3af'%3ENo Image%3C/text%3E%3C/svg%3E";
+                    e.target.onerror = null;
+                    e.target.src = "/product-placeholder.png";
                   }}
                 />
               </div>
@@ -88,7 +142,7 @@ export default function ProductDetailPage() {
 
             <div>
               <p className="text-sm font-medium text-blue-600 mb-2">
-                {categoryData.name}
+                {categoryName}
               </p>
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
                 {product.name}
@@ -103,7 +157,7 @@ export default function ProductDetailPage() {
               className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg"
             >
               <span className="text-sm font-medium text-blue-600">
-                Strength: {product.strength}
+                Putups: {product.packing || "N/A"}
               </span>
             </motion.div>
 
@@ -116,13 +170,8 @@ export default function ProductDetailPage() {
               <h3 className="text-lg font-semibold text-gray-900">
                 About {product.name}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
-                {product.name} is a {product.strength} formulation of{" "}
-                {product.composition}. It belongs to the{" "}
-                <span className="font-medium text-blue-600">
-                  {categoryData.name}
-                </span>{" "}
-                category of medications.
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                {product.description || `${product.name} is a high-quality pharmaceutical product designed for ${categoryName?.toLowerCase() || 'general'} use. It contains ${product.composition}.`}
               </p>
             </motion.div>
 
@@ -134,54 +183,12 @@ export default function ProductDetailPage() {
               className="p-6 bg-blue-50 rounded-lg border-l-4 border-blue-600"
             >
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                What are {categoryData.name.toLowerCase()}?
+                Overview
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                {categoryData.description}
+                {categoryData?.description || "This product is part of our extensive range of high-quality pharmaceutical formulations."}
               </p>
             </motion.div>
-
-            {categoryData.howItWorks && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="p-6 bg-green-50 rounded-lg border-l-4 border-green-600"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                  How does it work?
-                </h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {categoryData.howItWorks}
-                </p>
-              </motion.div>
-            )}
-
-            {categoryData.benefits && categoryData.benefits.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="p-6 bg-purple-50 rounded-lg border-l-4 border-purple-600"
-              >
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Key Benefits
-                </h3>
-                <ul className="space-y-2">
-                  {categoryData.benefits.map((benefit, idx) => (
-                    <li
-                      key={idx}
-                      className="flex items-start gap-3 text-gray-700"
-                    >
-                      <span className="text-purple-600 font-bold mt-0.5 shrink-0">
-                        ✓
-                      </span>
-                      <span>{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            )}
 
             <motion.button
               initial={{ opacity: 0, y: 10 }}
@@ -190,7 +197,7 @@ export default function ProductDetailPage() {
               onClick={() => navigate(`/products/${category}`)}
               className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg"
             >
-              ← Back to {categoryData.name}
+              ← Back to {categoryName}
             </motion.button>
           </motion.div>
         </div>
@@ -202,10 +209,10 @@ export default function ProductDetailPage() {
           className="mt-16"
         >
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-8">
-            Other products in {categoryData.name}
+            Other products in {categoryName}
           </h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {categoryData.products?.slice(0, 8).map((relatedProduct, idx) => (
+            {relatedProducts.slice(0, 8).map((relatedProduct, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
@@ -213,28 +220,28 @@ export default function ProductDetailPage() {
                 transition={{ delay: idx * 0.05 }}
                 whileHover={{ y: -4 }}
                 onClick={() => {
-                  const productSlug = relatedProduct.name
-                    .toLowerCase()
-                    .replace(/\s+/g, "-");
+                  const productSlug = relatedProduct.slug || relatedProduct.name.toLowerCase().replace(/\s+/g, "-");
                   navigate(`/products/${category}/${productSlug}`);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >
                 <Card className="p-4 h-full overflow-hidden border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-all cursor-pointer group">
-                  {relatedProduct.image && (
-                    <div className="w-full h-32 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center mb-3">
-                      <img
-                        src={relatedProduct.image}
-                        alt={relatedProduct.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
+                  <div className="w-full h-32 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center mb-3">
+                    <img
+                      src={relatedProduct.images?.[0] || "/product-placeholder.png"}
+                      alt={relatedProduct.name}
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/product-placeholder.png";
+                      }}
+                    />
+                  </div>
                   <h4 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors line-clamp-2">
                     {relatedProduct.name}
                   </h4>
                   <p className="text-xs text-gray-600 mt-2 line-clamp-1">
-                    {relatedProduct.strength}
+                    {relatedProduct.composition}
                   </p>
                 </Card>
               </motion.div>

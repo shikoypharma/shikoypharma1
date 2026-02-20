@@ -12,10 +12,10 @@ export default function AssociateCard({ associate, index }) {
       className="h-full"
     >
       <Card className="border-l-4 border-blue-600 shadow-md hover:shadow-lg transition-all duration-300 h-full overflow-hidden flex flex-col">
-        {associate.logo && (
+        {associate.image && (
           <div className="h-32 sm:h-40 overflow-hidden bg-gray-50 flex items-center justify-center p-4">
             <img
-              src={associate.logo}
+              src={associate.image}
               alt={associate.name}
               className="max-w-[90%] max-h-[90%] object-contain hover:scale-110 transition-transform duration-300"
             />
@@ -27,7 +27,7 @@ export default function AssociateCard({ associate, index }) {
             {associate.name}
           </h3>
           <p className="text-xs lg:text-sm text-gray-500 font-medium">
-            {associate.category}
+            {associate.type}
           </p>
         </div>
       </Card>

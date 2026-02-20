@@ -1,21 +1,23 @@
 export const FOOTER_DATA = {
   products: [
-    "Antidepressants",
-    "Antibiotics",
-    "Anti Allergic",
-    "Anti Arthritic",
-    "Anti Inflammatory",
+    { label: "Antidepressants", href: "/products/anti-depressants" },
+    { label: "Antibiotics", href: "/products/antibiotics" },
+    { label: "Anti Allergic", href: "/products/anti-allergic" },
+    { label: "Anti Arthritic", href: "/products/anti-arthritic" },
+    { label: "Anti Inflammatory", href: "/products/anti-inflammatory" },
+    { label: "Neuro Products", href: "/product-gallery?tab=Neuro" },
+    { label: "Cardiac Products", href: "/products/cardiac-diabetic" },
+    { label: "Diabetic Products", href: "/products/antidiabetics" },
   ],
   quickLinks: [
-    "Corporate Profile",
-    "Our Core Team",
-    "Certifications",
-    "Manufacturing",
-    "Operations",
-    "Third Party Manufacturing Company In India",
-    "Pharmaceutical Medicine Exporter From India",
-    "Nutraceutical Medicine Manufacturers In India",
-    "PCD Franchise",
+    { label: "Corporate Profile", href: "/about/corporate-profile" }, // Updated to specific route if available, or /about
+    { label: "Our Core Team", href: "/about/core-team" },
+    { label: "Certifications", href: "/about/certifications" },
+    { label: "Manufacturing", href: "/infrastructure" }, // or /infrastructure/operations
+    { label: "Operations", href: "/infrastructure/operations" },
+    { label: "Third Party Manufacturing", href: "/services/third-party-manufacturing" },
+    { label: "PCD Franchise", href: "/services/pcd-pharma-franchise" },
+    { label: "Pharmaceutical Exporter", href: "/services/pharmaceutical-exporter" },
   ],
   contact: {
     phones: [

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const careerSchema = new mongoose.Schema({
-    title: String,
+    title: {type: String, required: true, unique: true },
     intro: String,
     jobs: [{
         title: String,

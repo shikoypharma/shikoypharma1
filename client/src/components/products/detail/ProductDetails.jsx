@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import axios from "axios";
 import PageLayout from "@/components/layout/pageLayout/pageLayout";
-import { PRODUCTS_DATA } from "@/data/products/products.data";
-import { slugify } from "@/lib/slugify";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,10 +11,45 @@ import ProductInfo from "./ProductInfo";
 
 export default function ProductDetails() {
   const { slug } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const product = PRODUCTS_DATA.products.find((p) => slugify(p.brand || p.name) === slug);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        // Try fetching by slug first
+        const { data } = await axios.get(`/api/products/slug/${slug}`);
+        setProduct(data);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching product:", err);
+        // Fallback: If slug fails, try to see if it might be a direct name match or handle differently
+        // But for now, we assume the API handles the slug lookup
+        setError("Product not found");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!product) {
+    if (slug) {
+      fetchProduct();
+    }
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <PageLayout title="Loading...">
+        <div className="py-20 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-500">Loading product details...</p>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  if (error || !product) {
     return (
       <PageLayout title="Product Not Found">
         <motion.div
@@ -24,7 +58,14 @@ export default function ProductDetails() {
           className="py-10 text-center"
         >
           <h2 className="text-2xl lg:text-3xl font-semibold text-gray-900">Product not found</h2>
-          <p className="mt-4 text-gray-600">Try browsing the <Link to="/products" className="text-blue-600 hover:underline font-semibold">products list</Link>.</p>
+          <p className="mt-4 text-gray-600">
+            We couldn't find the product you're looking for.
+          </p>
+          <div className="mt-6">
+            <Link to="/product-gallery" className="text-blue-600 hover:underline font-semibold">
+              Browse Product Gallery
+            </Link>
+          </div>
         </motion.div>
       </PageLayout>
     );
@@ -38,7 +79,11 @@ export default function ProductDetails() {
           animate={{ opacity: 1, x: 0 }}
           className="lg:col-span-2"
         >
-          <ProductImageSection image={product.image} productName={product.name} />
+          {/* Ensure image formatting matches what ProductImageSection expects */}
+          <ProductImageSection
+            image={product.images?.[0] || "/product-placeholder.png"}
+            productName={product.name}
+          />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -60,7 +105,7 @@ export default function ProductDetails() {
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Get in Touch</h3>
             <p className="text-sm text-gray-600 mb-6">Have questions about this product? Submit your enquiry below.</p>
 
-            <ProductEnquiryForm productName={product.brand || product.name} />
+            <ProductEnquiryForm productName={product.name} />
 
             <motion.div
               initial={{ opacity: 0 }}
@@ -89,6 +134,7 @@ function ProductEnquiryForm({ productName }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    // In a real app, you would send this to an API endpoint
     const payload = { ...form, product: productName };
     console.log("Enquiry submitted:", payload);
 

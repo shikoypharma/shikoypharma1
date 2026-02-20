@@ -1,117 +1,210 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
+import { slugify } from '@/lib/slugify';
 import PageLayout from '@/components/layout/pageLayout/pageLayout';
 import { SectionHeader } from '@/components/shared/section-components';
-import { productGalleryData } from '@/data/gallery/productGallery.data';
-import { X, ZoomIn } from 'lucide-react';
+import { X, ExternalLink } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+
+const LABELS = ['All', 'Neuro', 'Psychiatric', 'Diabetic', 'Derma', 'Cardiac', 'General'];
 
 export default function ProductGallery() {
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [filter, setFilter] = useState('All');
+    const [searchParams] = useSearchParams();
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'All');
 
-    const categories = ['All', ...new Set(productGalleryData.images.map(img => img.category))];
+    useEffect(() => {
+        const tab = searchParams.get('tab');
+        if (tab && LABELS.includes(tab)) {
+            setActiveTab(tab);
+        }
+    }, [searchParams]);
 
-    const filteredImages = filter === 'All'
-        ? productGalleryData.images
-        : productGalleryData.images.filter(img => img.category === filter);
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const fetchProducts = async () => {
+        try {
+            const { data } = await axios.get("/api/products");
+            setProducts(data);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching products", error);
+            setLoading(false);
+        }
+    };
+
+    const filteredProducts = useMemo(() => {
+        if (activeTab === 'All') return products;
+        return products.filter(p => p.label === activeTab);
+    }, [products, activeTab]);
+
+    if (loading) {
+        return (
+            <PageLayout title="Product Gallery">
+                <div className="p-20 text-center">Loading gallery...</div>
+            </PageLayout>
+        );
+    }
 
     return (
-        <PageLayout title={productGalleryData.title}>
+        <PageLayout title="Product Gallery">
             <section className="py-1">
                 <div className="container mx-auto px-4">
-                    <SectionHeader title="Our Products" subtitle={productGalleryData.description} />
+                    <SectionHeader title="Product Showcase" subtitle="Explore our wide range of pharmaceutical products." />
 
-                    {/* Filters */}
-                    <div className="flex flex-wrap justify-center gap-3 mb-12">
-                        {categories.map(cat => (
+                    {/* Tabs */}
+                    <div className="flex flex-wrap justify-center gap-2 mb-8">
+                        {LABELS.map((label) => (
                             <button
-                                key={cat}
-                                onClick={() => setFilter(cat)}
-                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${filter === cat
-                                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
-                                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                key={label}
+                                onClick={() => setActiveTab(label)}
+                                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === label
+                                    ? "bg-blue-600 text-white shadow-lg scale-105"
+                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                     }`}
                             >
-                                {cat}
+                                {label}
                             </button>
                         ))}
                     </div>
 
-                    <motion.div
-                        layout
-                        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                    >
-                        <AnimatePresence>
-                            {filteredImages.map((image) => (
+                    {filteredProducts.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {filteredProducts.map((product, index) => (
                                 <motion.div
+                                    key={product._id || index}
                                     layout
-                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.8 }}
-                                    key={image.id}
-                                    className="group relative overflow-hidden rounded-xl shadow-sm hover:shadow-xl cursor-pointer aspect-square bg-slate-50 border border-slate-100"
-                                    onClick={() => setSelectedImage(image)}
+                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="group relative overflow-hidden rounded-xl shadow-md cursor-pointer aspect-square bg-white border border-gray-100"
+                                    onClick={() => setSelectedProduct(product)}
                                 >
-                                    {/* Fallback Display */}
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-4 text-center">
-                                        <span className="text-xs uppercase font-bold tracking-wider text-blue-200 mb-2">{image.category}</span>
-                                        <span className="text-sm font-medium text-slate-500">{image.alt}</span>
+                                    {/* Image */}
+                                    <div className="absolute inset-0 p-4 flex items-center justify-center bg-white">
+                                        <img
+                                            src={product.images?.[0] || ""}
+                                            alt={product.name}
+                                            className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                                            onError={(e) => {
+                                                e.target.onerror = null; // Prevent infinite loop
+                                                e.target.src = "/product-placeholder.png";
+                                            }}
+                                        />
                                     </div>
 
-                                    <img
-                                        src={image.src}
-                                        alt={image.alt}
-                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-0 group-hover:opacity-100 z-10"
-                                        onError={(e) => { e.target.style.display = 'none'; }}
-                                    />
-
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex items-center justify-center">
-                                        <ZoomIn className="text-white w-8 h-8" />
+                                    {/* Overlay */}
+                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
+                                        <h3 className="text-white font-bold text-lg mb-1">{product.name}</h3>
+                                        <p className="text-gray-200 text-xs mb-3">{product.composition}</p>
+                                        <span className="px-3 py-1 bg-blue-600 text-white text-xs rounded-full">
+                                            {product.label || "General"}
+                                        </span>
                                     </div>
                                 </motion.div>
                             ))}
-                        </AnimatePresence>
-                    </motion.div>
+                        </div>
+                    ) : (
+                        <div className="py-20 text-center text-gray-500">
+                            <p className="text-xl">No products found in {activeTab}.</p>
+                        </div>
+                    )}
                 </div>
             </section>
 
-            {/* Lightbox Modal (Reused logic, could be extracted to shared component) */}
+            {/* Lightbox Modal */}
             <AnimatePresence>
-                {selectedImage && (
+                {selectedProduct && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm"
-                        onClick={() => setSelectedImage(null)}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
+                        onClick={() => setSelectedProduct(null)}
                     >
                         <button
-                            className="absolute top-4 right-4 text-white hover:text-red-400 transition-colors bg-white/10 rounded-full p-2"
-                            onClick={() => setSelectedImage(null)}
+                            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors bg-white/10 p-2 rounded-full backdrop-blur-sm"
+                            onClick={() => setSelectedProduct(null)}
                         >
                             <X className="w-6 h-6" />
                         </button>
+
                         <motion.div
-                            initial={{ scale: 0.9, y: 20 }}
-                            animate={{ scale: 1, y: 0 }}
-                            exit={{ scale: 0.9, y: 20 }}
-                            className="max-w-3xl w-full max-h-[80vh] flex flex-col items-center"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative w-full max-w-4xl bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[85vh]"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <div className="bg-white rounded-lg overflow-hidden shadow-2xl w-full aspect-video flex items-center justify-center bg-slate-800">
+                            {/* Image Section */}
+                            <div className="w-full md:w-1/2 bg-gray-50 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-gray-100">
                                 <img
-                                    src={selectedImage.src}
-                                    alt={selectedImage.alt}
-                                    className="max-w-full max-h-full object-contain"
+                                    src={selectedProduct.images?.[0]}
+                                    alt={selectedProduct.name}
+                                    className="max-w-full max-h-[50vh] md:max-h-[60vh] object-contain drop-shadow-lg"
                                     onError={(e) => {
-                                        e.target.style.display = 'none';
-                                        e.target.parentElement.innerHTML = `<div class='flex flex-col items-center justify-center h-full text-white'><p class='text-xl font-bold'>${selectedImage.alt}</p><span class='text-sm text-blue-200'>${selectedImage.category} Product</span></div>`;
+                                        e.target.onerror = null;
+                                        e.target.src = "/product-placeholder.png";
                                     }}
                                 />
                             </div>
-                            <div className="mt-4 text-center">
-                                <p className="text-white text-xl font-medium">{selectedImage.alt}</p>
-                                <span className="text-blue-400 text-sm uppercase tracking-wider">{selectedImage.category}</span>
+
+                            {/* Info Section */}
+                            <div className="w-full md:w-1/2 p-8 flex flex-col overflow-y-auto">
+                                <div className="mb-auto">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold uppercase rounded-full tracking-wider">
+                                            {selectedProduct.label || "General"}
+                                        </span>
+                                        <span className="text-gray-400 text-xs">|</span>
+                                        <span className="text-gray-500 text-xs font-medium">
+                                            {selectedProduct.category}
+                                        </span>
+                                    </div>
+
+                                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                                        {selectedProduct.name}
+                                    </h2>
+                                    <p className="text-blue-600 font-medium text-lg mb-6">
+                                        {selectedProduct.composition}
+                                    </p>
+
+                                    <div className="space-y-4 text-gray-600">
+                                        {selectedProduct.description && (
+                                            <div>
+                                                <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-1">Description</h4>
+                                                <p className="text-sm leading-relaxed">{selectedProduct.description}</p>
+                                            </div>
+                                        )}
+                                        {selectedProduct.packing && (
+                                            <div>
+                                                <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-1">Packing</h4>
+                                                <p className="text-sm">{selectedProduct.packing}</p>
+                                            </div>
+                                        )}
+                                        {selectedProduct.brand && (
+                                            <div>
+                                                <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-1">Brand</h4>
+                                                <p className="text-sm">{selectedProduct.brand}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="mt-8 pt-6 border-t border-gray-100">
+                                    <Link
+                                        to={`/products/${slugify(selectedProduct.category || 'general')}/${selectedProduct.slug || slugify(selectedProduct.name)}`}
+                                        className="flex items-center justify-center gap-2 w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                                    >
+                                        View Full Details <ExternalLink size={16} />
+                                    </Link>
+                                </div>
                             </div>
                         </motion.div>
                     </motion.div>

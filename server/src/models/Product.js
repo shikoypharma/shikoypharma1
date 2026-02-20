@@ -12,7 +12,13 @@ const productSchema = new mongoose.Schema({
         value: String
     }],
     composition: String,
-    packing: String
+    packing: String,
+    brand: String,
+    label: {
+        type: String,
+        enum: ['Neuro', 'Psychiatric', 'Diabetic', 'Derma', 'Cardiac', 'General'],
+        default: 'General'
+    }
 }, { timestamps: true });
 
 export const Product = mongoose.model('Product', productSchema);
