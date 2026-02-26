@@ -23,9 +23,15 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // Login user
-    const login = async (user) => {
-        const res = await axios.post("/api/auth/login", user);
+    // Login user (username + password — kept for backward compatibility)
+    const login = async (credentials) => {
+        const res = await axios.post("/api/auth/login", credentials);
+        setUser(res.data);
+    };
+
+    // Login admin via Google credential token
+    const googleLogin = async (credential) => {
+        const res = await axios.post("/api/auth/google", { credential });
         setUser(res.data);
     };
 
@@ -33,10 +39,11 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         await axios.post("/api/auth/logout");
         setUser(null);
+        window.location.href = '/admin/login'; // Force redirect and clear state fully
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, googleLogin, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );
