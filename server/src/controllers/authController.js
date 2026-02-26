@@ -16,7 +16,7 @@ const setCookieAndRespond = (res, user, extraFields = {}) => {
     res.cookie("jwt", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 1 * 60 * 60 * 1000, // 1 hour
     });
     res.json({ _id: user._id, username: user.username, ...extraFields });
