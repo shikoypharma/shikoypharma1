@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import PublicLayout from "./components/layout/PublicLayout";
 import AdminLayout from "./components/admin/layout/AdminLayout";
-import PrivateRoute from "./components/admin/layout/PrivateRoute";
 
 // Admin Pages
 import Login from "./components/admin/pages/Login";
@@ -98,43 +97,41 @@ export default function App() {
         {/* Admin Routes */}
         <Route path="/admin/login" element={<Login />} />
 
-        <Route path="/admin" element={<PrivateRoute />}>
-          <Route element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="products" element={<ProductManager />} />
-            <Route path="products/add" element={<AddProduct />} />
-            <Route path="products/edit/:id" element={<EditProduct />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="products" element={<ProductManager />} />
+          <Route path="products/add" element={<AddProduct />} />
+          <Route path="products/edit/:id" element={<EditProduct />} />
 
-            <Route path="categories" element={<CategoryManager />} />
-            <Route path="categories/add" element={<CategoryForm />} />
-            <Route path="categories/edit/:id" element={<CategoryForm />} />
+          <Route path="categories" element={<CategoryManager />} />
+          <Route path="categories/add" element={<CategoryForm />} />
+          <Route path="categories/edit/:id" element={<CategoryForm />} />
 
-            <Route path="events" element={<EventManager />} />
-            <Route path="events/add" element={<EventForm />} />
-            <Route path="events/edit/:id" element={<EventForm />} />
+          <Route path="events" element={<EventManager />} />
+          <Route path="events/add" element={<EventForm />} />
+          <Route path="events/edit/:id" element={<EventForm />} />
 
-            <Route path="doctor-resources" element={<DoctorResourceManager />} />
-            <Route path="doctor-resources/add" element={<DoctorResourceForm />} />
-            <Route path="doctor-resources/edit/:id" element={<DoctorResourceForm />} />
+          <Route path="doctor-resources" element={<DoctorResourceManager />} />
+          <Route path="doctor-resources/add" element={<DoctorResourceForm />} />
+          <Route path="doctor-resources/edit/:id" element={<DoctorResourceForm />} />
 
-            <Route path="inquiries" element={<InquiryManager />} />
+          <Route path="inquiries" element={<InquiryManager />} />
 
-            <Route path="global" element={<GlobalManager />} />
+          <Route path="global" element={<GlobalManager />} />
 
-            <Route path="gallery" element={<GalleryManager />} />
-            <Route path="gallery/add" element={<GalleryForm />} />
-            <Route path="gallery/edit/:id" element={<GalleryForm />} />
+          <Route path="gallery" element={<GalleryManager />} />
+          <Route path="gallery/add" element={<GalleryForm />} />
+          <Route path="gallery/edit/:id" element={<GalleryForm />} />
 
-            <Route path="career" element={<CareerManager />} />
-            <Route path="career/add" element={<CareerForm />} />
-            <Route path="career/edit/:id" element={<CareerForm />} />
+          <Route path="career" element={<CareerManager />} />
+          <Route path="career/add" element={<CareerForm />} />
+          <Route path="career/edit/:id" element={<CareerForm />} />
 
-            <Route path="expertise" element={<ExpertiseManager />} />
-            <Route path="expertise/add" element={<ExpertiseForm />} />
-            <Route path="expertise/edit/:id" element={<ExpertiseForm />} />
+          <Route path="expertise" element={<ExpertiseManager />} />
+          <Route path="expertise/add" element={<ExpertiseForm />} />
+          <Route path="expertise/edit/:id" element={<ExpertiseForm />} />
 
-            <Route path="about" element={<AboutManager />} />
-          </Route>
+          <Route path="about" element={<AboutManager />} />
         </Route>
       </Routes>
     </AuthProvider>
