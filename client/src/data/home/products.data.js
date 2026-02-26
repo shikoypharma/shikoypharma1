@@ -25,7 +25,7 @@ export const PRODUCT_SEGMENTS_DATA = {
       name: "Cardiac",
       image: "/segment-placeholder.png",
       description:
-        "Lifecare manufactures a wide range of high-quality cardiac formulations like Beta-Blockers, Statins, ACE inhibitors, etc.",
+        "Shikoy Pharma manufactures a wide range of high-quality cardiac formulations like Beta-Blockers, Statins, ACE inhibitors, etc.",
       link: "/product-gallery?tab=Cardiac"
     },
     {

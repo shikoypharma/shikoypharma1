@@ -3,7 +3,7 @@ export const HERO_SLIDER_DATA = {
     {
       id: 1,
       image: "/hero1.webp",
-      heading: "Lifecare Neuro Products Ltd.",
+      heading: "Shikoy Pharma",
       subheading: "Quality Pharmaceutical Formulations",
     },
     {

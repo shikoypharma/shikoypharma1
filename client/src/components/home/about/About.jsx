@@ -7,7 +7,7 @@ export default function About() {
   return (
     <SectionWrapper>
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-        <AboutImage image={ABOUT_DATA.image} alt="About Lifecare" />
+        <AboutImage image={ABOUT_DATA.image} alt="About Shikoy Pharma" />
         <AboutContent
           title={ABOUT_DATA.title}
           description={ABOUT_DATA.description}
