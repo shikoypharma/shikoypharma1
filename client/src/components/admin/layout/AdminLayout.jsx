@@ -15,16 +15,7 @@ import {
 } from "lucide-react";
 
 const AdminLayout = () => {
-    const { user, loading, logout } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!loading && !user) {
-            navigate("/admin/login");
-        }
-    }, [user, loading, navigate]);
-
-    if (loading) return <div className="flex h-screen items-center justify-center">Loading...</div>;
+    const { user, logout } = useContext(AuthContext);
 
     if (!user) return null;
 
