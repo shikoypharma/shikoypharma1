@@ -5,7 +5,7 @@ import AdminLayout from "./components/admin/layout/AdminLayout";
 import PrivateRoute from "./components/admin/layout/PrivateRoute";
 
 // Admin Pages
-import Login from "./components/admin/pages/Login";
+import AdminLogin from "./components/admin/AdminLogin";
 import Dashboard from "./components/admin/pages/Dashboard";
 import ProductManager from "./components/admin/pages/ProductManager";
 import AddProduct from "./components/admin/products/AddProduct";
@@ -96,7 +96,7 @@ export default function App() {
         </Route>
 
         {/* Admin Routes */}
-        <Route path="/admin/login" element={<Login />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
 
         <Route path="/admin" element={<PrivateRoute />}>
           <Route element={<AdminLayout />}>
