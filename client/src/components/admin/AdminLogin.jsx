@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import './AdminLogin.css';
 
 export const AdminLogin = () => {
   const { googleLogin } = useContext(AuthContext);
