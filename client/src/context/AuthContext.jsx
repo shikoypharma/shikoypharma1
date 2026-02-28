@@ -29,12 +29,6 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data);
     };
 
-    // Login admin via Google credential token
-    const googleLogin = async (credential) => {
-        const res = await axios.post("/api/auth/google", { credential });
-        setUser(res.data);
-    };
-
     // Logout user
     const logout = async () => {
         await axios.post("/api/auth/logout");
@@ -43,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, googleLogin, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

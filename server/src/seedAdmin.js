@@ -13,7 +13,7 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const createAdmin = async () => {
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/shikoypharma");
+        const conn = await mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/shikoypharma");
         console.log(`MongoDB Connected: ${conn.connection.host}`);
 
         // Check if admin exists
