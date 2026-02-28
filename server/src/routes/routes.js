@@ -89,7 +89,6 @@ import {
 } from '../controllers/contactPageController.js';
 import {
     login,
-    googleLogin,
     logout,
     getMe
 } from '../controllers/authController.js';
@@ -105,7 +104,6 @@ const router = express.Router();
 
 // Auth Routes
 router.post('/auth/login', login);
-router.post('/auth/google', googleLogin);
 router.post('/auth/logout', logout);
 router.get('/auth/me', protect, getMe);
 
