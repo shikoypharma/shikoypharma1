@@ -61,14 +61,16 @@ const InquiryManager = () => {
                                 <h3 className="text-xl font-semibold flex items-center gap-2">
                                     {inq.name}
                                     <span className={`text-xs px-2 py-1 rounded-full ${inq.status === 'new' ? 'bg-yellow-100 text-yellow-800' :
-                                            inq.status === 'read' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
+                                        inq.status === 'read' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
                                         }`}>
                                         {inq.status.toUpperCase()}
                                     </span>
                                     <span className="text-xs text-gray-500 px-2 py-1 bg-gray-100 rounded-full">{inq.type}</span>
+                                    {inq.source && <span className="text-xs text-purple-500 px-2 py-1 bg-purple-50 rounded-full">from: {inq.source}</span>}
                                 </h3>
                                 <p className="text-gray-600 flex items-center gap-1 text-sm mt-1">
                                     <Mail size={14} /> {inq.email} | {inq.phone}
+                                    {inq.location && <> | 📍 {inq.location}</>}
                                 </p>
                                 <p className="text-gray-500 text-xs mt-1">
                                     {new Date(inq.createdAt).toLocaleString()}

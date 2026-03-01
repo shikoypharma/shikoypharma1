@@ -5,31 +5,42 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 const router = express.Router();
 
-// Configure Cloudinary with env variables
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+// Lazy-initialize storage so env vars from dotenv are available
+let upload;
+function getUpload() {
+    if (!upload) {
+        cloudinary.config({
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
+        });
 
-// Set up the Cloudinary Storage Engine for Multer
-const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'shikoypharma_uploads', // The folder name in your Cloudinary console
-        allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-    },
-});
+        const storage = new CloudinaryStorage({
+            cloudinary: cloudinary,
+            params: {
+                folder: 'shikoypharma_uploads',
+                allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+            },
+        });
 
-const upload = multer({ storage });
-
-router.post('/', upload.single('image'), (req, res) => {
-    // Cloudinary automatically returns the secure URL of the uploaded image
-    if (!req.file) {
-        return res.status(400).send('No image provided');
+        upload = multer({ storage });
     }
-    // Return the Cloudinary URL. 
-    res.send(req.file.path);
+    return upload;
+}
+
+router.post('/', (req, res) => {
+    const uploader = getUpload();
+    uploader.single('image')(req, res, (err) => {
+        if (err) {
+            console.error('Upload error:', err);
+            return res.status(500).json({ message: 'Upload failed', error: err.message });
+        }
+        if (!req.file) {
+            return res.status(400).json({ message: 'No image provided' });
+        }
+        // Return the Cloudinary URL
+        res.send(req.file.path);
+    });
 });
 
 export default router;

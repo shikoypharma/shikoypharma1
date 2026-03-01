@@ -14,7 +14,7 @@ export default function Certifications() {
         const { data } = await axios.get("/api/content/certifications");
         setData(data);
       } catch (error) {
-        console.error("Error fetching certifications data", error);
+        // Silently fall back to "Content not available" if not configured yet
       } finally {
         setLoading(false);
       }

@@ -15,7 +15,7 @@ export default function OurAssociates() {
         const { data } = await axios.get("/api/content/associates");
         setData(data);
       } catch (error) {
-        console.error("Error fetching associates data", error);
+        // Silently fall back to "Content not available" if not configured yet
       } finally {
         setLoading(false);
       }
