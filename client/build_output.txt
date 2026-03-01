@@ -1,0 +1,16 @@
+
+> client@0.0.0 build
+> vite build
+
+[36mvite v7.3.0 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 2127 modules transformed.
+[31m✗[39m Build failed in 2.55s
+[31merror during build:
+[31m[vite:load-fallback] Could not load C:\Users\tapan\OneDrive\Desktop\CODING FILES\shikoypharma1\client\src/data/home/hero.data (imported by src/components/home/hero/Hero.jsx): ENOENT: no such file or directory, open 'C:\Users\tapan\OneDrive\Desktop\CODING FILES\shikoypharma1\client\src\data\home\hero.data'[31m
+    at async open (node:internal/fs/promises:639:25)
+    at async Object.readFile (node:internal/fs/promises:1243:14)
+    at async Object.handler (file:///C:/Users/tapan/OneDrive/Desktop/CODING%20FILES/shikoypharma1/client/node_modules/vite/dist/node/chunks/config.js:33168:21)
+    at async PluginDriver.hookFirstAndGetPlugin (file:///C:/Users/tapan/OneDrive/Desktop/CODING%20FILES/shikoypharma1/client/node_modules/rollup/dist/es/shared/node-entry.js:22404:28)
+    at async file:///C:/Users/tapan/OneDrive/Desktop/CODING%20FILES/shikoypharma1/client/node_modules/rollup/dist/es/shared/node-entry.js:21404:33
+    at async Queue.work (file:///C:/Users/tapan/OneDrive/Desktop/CODING%20FILES/shikoypharma1/client/node_modules/rollup/dist/es/shared/node-entry.js:22632:32)[39m
