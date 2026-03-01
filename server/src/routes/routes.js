@@ -76,13 +76,6 @@ import {
     deleteProductCategory
 } from '../controllers/productCategoryController.js';
 import {
-    getEvents,
-    createEvent,
-    getEventById,
-    updateEvent,
-    deleteEvent
-} from '../controllers/eventController.js';
-import {
     getContactPage,
     createContactPage,
     updateContactPage
@@ -184,12 +177,6 @@ router.post('/product-categories', protect, isAdmin, createProductCategory);
 router.put('/product-categories/:id', protect, isAdmin, updateProductCategory);
 router.delete('/product-categories/:id', protect, isAdmin, deleteProductCategory);
 
-// Event Routes
-router.get('/events', getEvents);
-router.get('/events/:id', getEventById);
-router.post('/events', protect, isAdmin, createEvent);
-router.put('/events/:id', protect, isAdmin, updateEvent);
-router.delete('/events/:id', protect, isAdmin, deleteEvent);
 
 // Contact Page Routes
 router.get('/contact-page', getContactPage);

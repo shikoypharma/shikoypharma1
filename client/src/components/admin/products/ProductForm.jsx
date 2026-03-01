@@ -25,10 +25,13 @@ const ProductForm = ({ initialData = {}, isEdit = false }) => {
 
     useEffect(() => {
         fetchCategories();
-        if (initialData) {
+    }, []);
+
+    useEffect(() => {
+        if (initialData && initialData._id) {
             setFormData(prev => ({ ...prev, ...initialData }));
         }
-    }, [initialData]);
+    }, [initialData?._id]);
 
     const fetchCategories = async () => {
         try {

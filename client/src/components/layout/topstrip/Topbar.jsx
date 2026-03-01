@@ -1,16 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { TOPBAR_DATA } from "@/data/layout/topbar.data";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Facebook, Linkedin, Youtube, Globe } from "lucide-react";
+import { Facebook, Linkedin, Youtube, Globe, Instagram, Twitter } from "lucide-react";
 
 const icons = {
   facebook: Facebook,
   linkedin: Linkedin,
   youtube: Youtube,
+  instagram: Instagram,
+  twitter: Twitter,
 };
 
 export default function TopBar() {
+  const [topbarData, setTopbarData] = useState(TOPBAR_DATA);
+
+  useEffect(() => {
+    const fetchTopbar = async () => {
+      try {
+        const { data } = await axios.get("/api/global");
+        if (data?.topbar) {
+          setTopbarData({
+            socials: data.topbar.socials?.length ? data.topbar.socials : TOPBAR_DATA.socials,
+            links: data.topbar.links?.length ? data.topbar.links : TOPBAR_DATA.links,
+          });
+        }
+      } catch (err) {
+        // Fallback to static data
+      }
+    };
+    fetchTopbar();
+  }, []);
+
   const googleTranslateElementInit = () => {
     new window.google.translate.TranslateElement(
       {
@@ -36,22 +58,27 @@ export default function TopBar() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="sticky top-0 z-50 bg-blue-600 text-white text-sm"
+      className="hidden sm:block bg-blue-600 text-white text-sm"
     >
       <div className="max-w-7xl mx-auto px-4 h-10 flex justify-between items-center">
 
         <div className="flex gap-4 items-center">
           <span className="hidden sm:inline text-blue-100">Connect with us:</span>
           <div className="flex gap-3">
-            {TOPBAR_DATA.socials.map((s, i) => {
+            {topbarData.socials.map((s, i) => {
               const Icon = icons[s.name];
-              return <Icon key={i} size={16} className="cursor-pointer hover:text-blue-200 transition-colors" />;
+              if (!Icon) return null;
+              return (
+                <a key={i} href={s.url || "#"} target="_blank" rel="noopener noreferrer">
+                  <Icon size={16} className="cursor-pointer hover:text-blue-200 transition-colors" />
+                </a>
+              );
             })}
           </div>
         </div>
 
         <div className="flex gap-6 items-center">
-          {TOPBAR_DATA.links.map((l, i) => (
+          {topbarData.links.map((l, i) => (
             <Link
               key={i}
               to={l.path}
@@ -67,7 +94,7 @@ export default function TopBar() {
             <div id="google_translate_element" className="google-translate-container"></div>
           </div>
 
-          <style jsx global>{`
+          <style>{`
                 .google-translate-container .goog-te-gadget-simple {
                     background-color: transparent !important;
                     border: none !important;

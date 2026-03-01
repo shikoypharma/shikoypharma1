@@ -5,22 +5,31 @@ const globalSchema = new mongoose.Schema({
         logo: String,
         contact: { phone: String, email: String }
     },
+    topbar: {
+        socials: [{ name: String, url: String }],
+        links: [{ label: String, path: String, highlight: { type: Boolean, default: false } }],
+        contact: { phone: String, email: String }
+    },
     footer: {
         description: String,
-        contactInfo: {
-            address: String,
+        products: [{ label: String, href: String }],
+        quickLinks: [{ label: String, href: String }],
+        contact: {
             phones: [String],
-            emails: [String],
-            website: String
+            emails: {
+                domestic: String,
+                export: String
+            }
+        },
+        addresses: {
+            manufacturing: String,
+            corporate: String
         },
         socials: [{
             platform: String,
             url: String
-        }]
-    },
-    topbar: {
-        socials: [{ name: String, url: String }],
-        contact: { phone: String, email: String }
+        }],
+        copyrightText: String
     }
 }, { timestamps: true });
 

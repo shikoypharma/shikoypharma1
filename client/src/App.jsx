@@ -15,8 +15,6 @@ import DoctorResourceForm from "./components/admin/doctorResources/DoctorResourc
 import InquiryManager from "./components/admin/pages/InquiryManager";
 import CategoryManager from "./components/admin/pages/CategoryManager";
 import CategoryForm from "./components/admin/categories/CategoryForm";
-import EventManager from "./components/admin/pages/EventManager";
-import EventForm from "./components/admin/events/EventForm";
 import GlobalManager from "./components/admin/pages/GlobalManager";
 import GalleryManager from "./components/admin/pages/GalleryManager";
 import GalleryForm from "./components/admin/gallery/GalleryForm";
@@ -25,6 +23,8 @@ import CareerForm from "./components/admin/career/CareerForm";
 import ExpertiseManager from "./components/admin/pages/ExpertiseManager";
 import ExpertiseForm from "./components/admin/expertise/ExpertiseForm";
 import AboutManager from "./components/admin/pages/AboutManager";
+import HomeManager from "./components/admin/pages/HomeManager";
+import ContactManager from "./components/admin/pages/ContactManager";
 
 // Public Pages
 import Home from "./pages/Home";
@@ -109,9 +109,6 @@ export default function App() {
             <Route path="categories/add" element={<CategoryForm />} />
             <Route path="categories/edit/:id" element={<CategoryForm />} />
 
-            <Route path="events" element={<EventManager />} />
-            <Route path="events/add" element={<EventForm />} />
-            <Route path="events/edit/:id" element={<EventForm />} />
 
             <Route path="doctor-resources" element={<DoctorResourceManager />} />
             <Route path="doctor-resources/add" element={<DoctorResourceForm />} />
@@ -120,6 +117,7 @@ export default function App() {
             <Route path="inquiries" element={<InquiryManager />} />
 
             <Route path="global" element={<GlobalManager />} />
+            <Route path="home" element={<HomeManager />} />
 
             <Route path="gallery" element={<GalleryManager />} />
             <Route path="gallery/add" element={<GalleryForm />} />
@@ -134,6 +132,7 @@ export default function App() {
             <Route path="expertise/edit/:id" element={<ExpertiseForm />} />
 
             <Route path="about" element={<AboutManager />} />
+            <Route path="contact" element={<ContactManager />} />
           </Route>
         </Route>
       </Routes>

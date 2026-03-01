@@ -1,13 +1,6 @@
 export const FOOTER_DATA = {
   products: [
-    { label: "Antidepressants", href: "/products/anti-depressants" },
-    { label: "Antibiotics", href: "/products/antibiotics" },
-    { label: "Anti Allergic", href: "/products/anti-allergic" },
-    { label: "Anti Arthritic", href: "/products/anti-arthritic" },
-    { label: "Anti Inflammatory", href: "/products/anti-inflammatory" },
-    { label: "Neuro Products", href: "/product-gallery?tab=Neuro" },
-    { label: "Cardiac Products", href: "/products/cardiac-diabetic" },
-    { label: "Diabetic Products", href: "/products/antidiabetics" },
+    
   ],
   quickLinks: [
     { label: "Corporate Profile", href: "/about/corporate-profile" }, // Updated to specific route if available, or /about

@@ -5,14 +5,14 @@ import Footer from "./footer/Footer";
 
 const PublicLayout = () => {
     return (
-        <>
+        <div className="overflow-x-hidden">
             <TopBar />
             <Navbar />
             <main>
                 <Outlet />
             </main>
             <Footer />
-        </>
+        </div>
     );
 };
 

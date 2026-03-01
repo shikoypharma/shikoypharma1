@@ -96,8 +96,8 @@ export default function ProductRangeSlider() {
               ))}
             </CarouselContent>
 
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious className="hidden sm:inline-flex" />
+            <CarouselNext className="hidden sm:inline-flex" />
           </Carousel>
         </motion.div>
 
