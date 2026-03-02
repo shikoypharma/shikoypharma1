@@ -33,43 +33,7 @@ export const NAVBAR_DATA = [
     label: "Our Products",
     basePath: "/products",
     mega: {
-      columns: [
-        [
-          { label: "Antipsychotic", path: "antipsychotic" },
-          { label: "Antiemetics & Vertigo", path: "antiemetics-vertigo" },
-          { label: "Cerebral Activators", path: "cerebral-activators" },
-          { label: "Antiparkinsonian", path: "antiparkinsonian" },
-          { label: "Anti-Arthritic", path: "anti-arthritic" },
-          { label: "Cardiac Diabetic Range", path: "cardiac-diabetic" },
-          { label: "Anti-Asthmatics", path: "anti-asthmatics" },
-        ],
-        [
-          { label: "Anti-depressants", path: "anti-depressants" },
-          { label: "Antiplatelets", path: "antiplatelets" },
-          { label: "Antidiabetics", path: "antidiabetics" },
-          { label: "NSAID's", path: "nsaids" },
-          { label: "Anti-Allergic", path: "anti-allergic" },
-          { label: "Paediatric Division", path: "paediatric-division" },
-          { label: "Antimicrobials & Antibiotics", path: "antimicrobials-antibiotics" },
-        ],
-        [
-          { label: "Anticonvulsants", path: "anticonvulsants" },
-          { label: "Antibiotics", path: "antibiotics" },
-          { label: "Vitamins & Minerals", path: "vitamins-minerals" },
-          { label: "Antiulcer Hyperacidity", path: "antiulcer-hyperacidity" },
-          { label: "Anti-Inflammatory", path: "anti-inflammatory" },
-          { label: "Urology", path: "urology" },
-          { label: "Anti-Hypertensives", path: "anti-hypertensives" },
-        ],
-        [
-          { label: "Anxiolytics", path: "anxiolytics" },
-          { label: "Anti-Alcoholism", path: "anti-alcoholism" },
-          { label: "Antimigraine", path: "antimigraine" },
-          { label: "Dermatological", path: "dermatological" },
-          { label: "OTC Products", path: "otc-products" },
-          { label: "Gynaecology", path: "gynaecology" },
-        ],
-      ],
+      columns: []
     },
   },
 
