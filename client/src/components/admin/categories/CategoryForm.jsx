@@ -191,7 +191,7 @@ const CategoryForm = () => {
                                 type="text"
                                 value={benefit}
                                 onChange={(e) => updateBenefit(index, e.target.value)}
-                                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+                                className="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
                                 placeholder={`Benefit ${index + 1}`}
                             />
                             <button type="button" onClick={() => removeBenefit(index)} className="text-red-500 hover:text-red-700">

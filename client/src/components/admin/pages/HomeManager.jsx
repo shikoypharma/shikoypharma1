@@ -294,9 +294,11 @@ export default function HomeManager() {
                         ))}
                     </div>
 
-                    <button onClick={saveTopbar} disabled={saving} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50">
-                        <Save size={18} /> {saving ? "Saving..." : "Save Top Bar"}
-                    </button>
+                    <div className="sticky bottom-0 bg-white p-4 border-t mt-8 z-20 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] rounded-b-lg -mx-4 -mb-4 sm:mx-0 sm:mb-0 sm:rounded-none">
+                        <button onClick={saveTopbar} disabled={saving} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                            <Save size={18} /> {saving ? "Saving..." : "Save Top Bar"}
+                        </button>
+                    </div>
                 </div>
             )}
 
@@ -349,7 +351,7 @@ export default function HomeManager() {
                                         <input
                                             value={slide.image}
                                             onChange={(e) => updateSlide(i, "image", e.target.value)}
-                                            className="flex-1 border rounded-lg px-3 py-2 text-sm"
+                                            className="flex-1 min-w-0 border rounded-lg px-3 py-2 text-sm"
                                             placeholder="Image URL or upload"
                                         />
                                         <label className="cursor-pointer bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded-lg text-sm flex items-center gap-1">
@@ -365,9 +367,11 @@ export default function HomeManager() {
                         ))}
                     </div>
 
-                    <button onClick={saveHero} disabled={saving} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50">
-                        <Save size={18} /> {saving ? "Saving..." : "Save Hero"}
-                    </button>
+                    <div className="sticky bottom-0 bg-white p-4 border-t mt-8 z-20 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] rounded-b-lg -mx-4 -mb-4 sm:mx-0 sm:mb-0 sm:rounded-none">
+                        <button onClick={saveHero} disabled={saving} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                            <Save size={18} /> {saving ? "Saving..." : "Save Hero"}
+                        </button>
+                    </div>
                 </div>
             )}
 
@@ -440,9 +444,11 @@ export default function HomeManager() {
                         </div>
                     </div>
 
-                    <button onClick={saveAbout} disabled={saving} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50">
-                        <Save size={18} /> {saving ? "Saving..." : "Save About"}
-                    </button>
+                    <div className="sticky bottom-0 bg-white p-4 border-t mt-8 z-20 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] rounded-b-lg -mx-4 -mb-4 sm:mx-0 sm:mb-0 sm:rounded-none">
+                        <button onClick={saveAbout} disabled={saving} className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                            <Save size={18} /> {saving ? "Saving..." : "Save About"}
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

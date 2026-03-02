@@ -106,7 +106,7 @@ const InquiryManager = () => {
                         </div>
                         <div className="mt-4 pt-4 border-t">
                             <p className="font-medium text-gray-800 mb-1">Subject: {inq.subject || "No Subject"}</p>
-                            <p className="text-gray-700 whitespace-pre-wrap">{inq.message}</p>
+                            <p className="text-gray-700 whitespace-pre-wrap break-words">{inq.message}</p>
                         </div>
                     </div>
                 ))}

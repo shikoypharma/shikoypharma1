@@ -110,13 +110,6 @@ export default function ContactManager() {
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-gray-800">Contact Page Manager</h1>
-                <button
-                    type="submit"
-                    disabled={saving}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 disabled:opacity-50"
-                >
-                    <Save size={18} /> {saving ? "Saving..." : "Save Changes"}
-                </button>
             </div>
 
             {message && (
@@ -219,7 +212,7 @@ export default function ContactManager() {
                                         <input
                                             value={phone}
                                             onChange={(e) => updatePhone(oi, pi, e.target.value)}
-                                            className="flex-1 border rounded-lg px-3 py-2 text-sm"
+                                            className="flex-1 min-w-0 border rounded-lg px-3 py-2 text-sm"
                                             placeholder="+91 XXXXXXXXXX"
                                         />
                                         <button type="button" onClick={() => removePhone(oi, pi)} className="text-red-400 hover:text-red-600"><X size={16} /></button>
@@ -246,7 +239,7 @@ export default function ContactManager() {
                                         <input
                                             value={em.email}
                                             onChange={(e) => updateEmail(oi, ei, "email", e.target.value)}
-                                            className="flex-1 border rounded-lg px-3 py-2 text-sm"
+                                            className="flex-1 min-w-0 border rounded-lg px-3 py-2 text-sm"
                                             placeholder="email@example.com"
                                         />
                                         <button type="button" onClick={() => removeEmail(oi, ei)} className="text-red-400 hover:text-red-600"><X size={16} /></button>
@@ -256,6 +249,16 @@ export default function ContactManager() {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="sticky bottom-0 bg-white p-4 border-t mt-8 z-20 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                <button
+                    type="submit"
+                    disabled={saving}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 disabled:opacity-50"
+                >
+                    <Save size={18} /> {saving ? "Saving..." : "Save Changes"}
+                </button>
             </div>
         </form>
     );

@@ -202,7 +202,7 @@ const ExpertiseForm = () => {
                     </div>
                     {formData.intro.content.map((para, i) => (
                         <div key={i} className="flex gap-2 mb-2">
-                            <textarea value={para} onChange={(e) => updateArrayItem("intro", "content", i, null, e.target.value)} rows={2} className="flex-1 border p-2 rounded" />
+                            <textarea value={para} onChange={(e) => updateArrayItem("intro", "content", i, null, e.target.value)} rows={2} className="flex-1 min-w-0 border p-2 rounded" />
                             <button type="button" onClick={() => removeArrayItem("intro", "content", i)} className="text-red-500"><X size={20} /></button>
                         </div>
                     ))}
@@ -214,7 +214,7 @@ const ExpertiseForm = () => {
                     </div>
                     {formData.intro.features.map((feat, i) => (
                         <div key={i} className="flex gap-2 mb-2">
-                            <input type="text" value={feat} onChange={(e) => updateArrayItem("intro", "features", i, null, e.target.value)} className="flex-1 border p-2 rounded" />
+                            <input type="text" value={feat} onChange={(e) => updateArrayItem("intro", "features", i, null, e.target.value)} className="flex-1 min-w-0 border p-2 rounded" />
                             <button type="button" onClick={() => removeArrayItem("intro", "features", i)} className="text-red-500"><X size={20} /></button>
                         </div>
                     ))}

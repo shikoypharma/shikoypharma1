@@ -172,7 +172,7 @@ const ChairmanDeskForm = () => {
                                 value={para}
                                 onChange={(e) => handleMessageChange(index, e.target.value)}
                                 rows={3}
-                                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+                                className="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
                                 placeholder={`Paragraph ${index + 1}`}
                             />
                             <button
@@ -188,14 +188,16 @@ const ChairmanDeskForm = () => {
                 </div>
             </div>
 
-            <button
-                type="submit"
-                disabled={loading}
-                className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2"
-            >
-                <Save size={18} />
-                {loading ? "Saving..." : "Save Changes"}
-            </button>
+            <div className="sticky bottom-0 bg-white p-4 border-t mt-4 z-20 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2"
+                >
+                    <Save size={18} />
+                    {loading ? "Saving..." : "Save Changes"}
+                </button>
+            </div>
         </form>
     );
 };

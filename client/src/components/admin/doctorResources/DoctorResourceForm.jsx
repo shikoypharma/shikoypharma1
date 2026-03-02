@@ -103,14 +103,14 @@ const DoctorResourceForm = () => {
                                 type="text"
                                 value={row.genericName}
                                 onChange={(e) => updateRow(index, "genericName", e.target.value)}
-                                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+                                className="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
                                 placeholder="Generic Name"
                             />
                             <input
                                 type="text"
                                 value={row.brandName}
                                 onChange={(e) => updateRow(index, "brandName", e.target.value)}
-                                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+                                className="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
                                 placeholder="Brand Name"
                             />
                             <button type="button" onClick={() => removeRow(index)} className="text-red-500 hover:text-red-700">

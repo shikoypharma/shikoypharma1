@@ -158,14 +158,6 @@ const GlobalManager = () => {
         <form onSubmit={handleSubmit}>
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-gray-800">Footer & Global Manager</h1>
-                <button
-                    type="submit"
-                    disabled={saving}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 flex items-center gap-2 disabled:opacity-50"
-                >
-                    <Save size={18} />
-                    {saving ? "Saving..." : "Save Changes"}
-                </button>
             </div>
 
             {message && (
@@ -233,7 +225,7 @@ const GlobalManager = () => {
                                 <input
                                     value={phone}
                                     onChange={(e) => updatePhone(i, e.target.value)}
-                                    className="flex-1 rounded-lg border px-3 py-2 text-sm"
+                                    className="flex-1 min-w-0 rounded-lg border px-3 py-2 text-sm"
                                     placeholder="+91 XXXXXXXXXX"
                                 />
                                 <button type="button" onClick={() => removePhone(i)} className="text-red-400 hover:text-red-600"><X size={18} /></button>
@@ -314,13 +306,13 @@ const GlobalManager = () => {
                             <input
                                 value={item.label}
                                 onChange={(e) => updateLinkItem("products", i, "label", e.target.value)}
-                                className="flex-1 rounded-lg border px-3 py-2 text-sm"
+                                className="flex-1 min-w-0 rounded-lg border px-3 py-2 text-sm"
                                 placeholder="Label (e.g. Antidepressants)"
                             />
                             <input
                                 value={item.href}
                                 onChange={(e) => updateLinkItem("products", i, "href", e.target.value)}
-                                className="flex-1 rounded-lg border px-3 py-2 text-sm"
+                                className="flex-1 min-w-0 rounded-lg border px-3 py-2 text-sm"
                                 placeholder="Link (e.g. /products/anti-depressants)"
                             />
                             <button type="button" onClick={() => removeLinkItem("products", i)} className="text-red-400 hover:text-red-600"><X size={18} /></button>
@@ -341,13 +333,13 @@ const GlobalManager = () => {
                             <input
                                 value={item.label}
                                 onChange={(e) => updateLinkItem("quickLinks", i, "label", e.target.value)}
-                                className="flex-1 rounded-lg border px-3 py-2 text-sm"
+                                className="flex-1 min-w-0 rounded-lg border px-3 py-2 text-sm"
                                 placeholder="Label (e.g. Corporate Profile)"
                             />
                             <input
                                 value={item.href}
                                 onChange={(e) => updateLinkItem("quickLinks", i, "href", e.target.value)}
-                                className="flex-1 rounded-lg border px-3 py-2 text-sm"
+                                className="flex-1 min-w-0 rounded-lg border px-3 py-2 text-sm"
                                 placeholder="Link (e.g. /about/corporate-profile)"
                             />
                             <button type="button" onClick={() => removeLinkItem("quickLinks", i)} className="text-red-400 hover:text-red-600"><X size={18} /></button>
@@ -374,7 +366,7 @@ const GlobalManager = () => {
                             <input
                                 value={social.url}
                                 onChange={(e) => updateSocial(i, "url", e.target.value)}
-                                className="flex-1 rounded-lg border px-3 py-2 text-sm"
+                                className="flex-1 min-w-0 rounded-lg border px-3 py-2 text-sm"
                                 placeholder="URL"
                             />
                             <button type="button" onClick={() => removeSocial(i)} className="text-red-400 hover:text-red-600"><X size={18} /></button>
@@ -393,6 +385,17 @@ const GlobalManager = () => {
                     />
                 </div>
 
+            </div>
+
+            <div className="sticky bottom-0 bg-white p-4 border-t mt-8 z-20 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                <button
+                    type="submit"
+                    disabled={saving}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 flex items-center gap-2 disabled:opacity-50"
+                >
+                    <Save size={18} />
+                    {saving ? "Saving..." : "Save Changes"}
+                </button>
             </div>
         </form>
     );

@@ -293,7 +293,7 @@ const ProductForm = ({ initialData = {}, isEdit = false }) => {
                                 type="text"
                                 value={feature}
                                 onChange={(e) => updateFeature(index, e.target.value)}
-                                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+                                className="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
                                 placeholder="Feature description"
                             />
                             <button type="button" onClick={() => removeFeature(index)} className="text-red-500 hover:text-red-700">
@@ -326,7 +326,7 @@ const ProductForm = ({ initialData = {}, isEdit = false }) => {
                                 type="text"
                                 value={spec.value}
                                 onChange={(e) => updateSpecification(index, "value", e.target.value)}
-                                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+                                className="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
                                 placeholder="Value"
                             />
                             <button type="button" onClick={() => removeSpecification(index)} className="text-red-500 hover:text-red-700">
