@@ -74,8 +74,8 @@ const importData = async () => {
             hero: HERO_DATA,
             services: SERVICES_DATA,
             about: {
-                title: "Welcome to Lifecare Neuro",
-                description: "Lifecare Neuro Products Limited is a registered Indian Pharmaceutical Company engaged in the manufacturing and marketing of Pharmaceutical formulations.",
+                title: "Welcome to Shikoy Pharma",
+                description: "Shikoy Pharma is a registered Indian Pharmaceutical Company engaged in the manufacturing and marketing of Pharmaceutical formulations.",
                 image: "/about-home.jpg",
                 highlights: ["WHO-GMP Certified", "ISO 9001:2015 Certified", "GLP Certified"]
             }
