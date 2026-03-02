@@ -212,7 +212,7 @@ export default function ContactManager() {
                                         <input
                                             value={phone}
                                             onChange={(e) => updatePhone(oi, pi, e.target.value)}
-                                            className="flex-1 border rounded-lg px-3 py-2 text-sm"
+                                            className="flex-1 min-w-0 border rounded-lg px-3 py-2 text-sm"
                                             placeholder="+91 XXXXXXXXXX"
                                         />
                                         <button type="button" onClick={() => removePhone(oi, pi)} className="text-red-400 hover:text-red-600"><X size={16} /></button>
@@ -239,7 +239,7 @@ export default function ContactManager() {
                                         <input
                                             value={em.email}
                                             onChange={(e) => updateEmail(oi, ei, "email", e.target.value)}
-                                            className="flex-1 border rounded-lg px-3 py-2 text-sm"
+                                            className="flex-1 min-w-0 border rounded-lg px-3 py-2 text-sm"
                                             placeholder="email@example.com"
                                         />
                                         <button type="button" onClick={() => removeEmail(oi, ei)} className="text-red-400 hover:text-red-600"><X size={16} /></button>

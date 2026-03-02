@@ -149,7 +149,7 @@ const CorporateProfileForm = () => {
                                 value={para}
                                 onChange={(e) => handleContentChange(index, e.target.value)}
                                 rows={3}
-                                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+                                className="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
                                 placeholder={`Paragraph ${index + 1}`}
                             />
                             <button

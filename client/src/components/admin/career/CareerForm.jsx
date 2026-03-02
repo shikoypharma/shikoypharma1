@@ -56,9 +56,9 @@ const CareerForm = () => {
 
     // Jobs
     const addJob = () => {
-        setFormData(prev => ({ 
-            ...prev, 
-            jobs: [...prev.jobs, { title: "", department: "", location: "", experience: "", description: "" }] 
+        setFormData(prev => ({
+            ...prev,
+            jobs: [...prev.jobs, { title: "", department: "", location: "", experience: "", description: "" }]
         }));
     };
 
@@ -97,7 +97,7 @@ const CareerForm = () => {
     return (
         <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold mb-6">{isEdit ? "Edit Career Section" : "Add Career Section"}</h2>
-            
+
             <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700">Title (e.g., Careers at Shikoy)</label>
                 <input
@@ -135,7 +135,7 @@ const CareerForm = () => {
                                 type="text"
                                 value={dept}
                                 onChange={(e) => updateDepartment(index, e.target.value)}
-                                className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
+                                className="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 border p-2"
                                 placeholder="Department Name"
                             />
                             <button type="button" onClick={() => removeDepartment(index)} className="text-red-500 hover:text-red-700">
