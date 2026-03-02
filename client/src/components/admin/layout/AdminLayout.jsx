@@ -55,7 +55,7 @@ const AdminLayout = () => {
     ];
 
     return (
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen bg-gray-100 overflow-x-hidden">
             {/* Mobile Overlay */}
             {sidebarOpen && (
                 <div
@@ -107,8 +107,8 @@ const AdminLayout = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-auto min-w-0">
-                <header className="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-30">
+            <main className="flex-1 overflow-x-hidden overflow-y-auto min-w-0 flex flex-col h-screen">
+                <header className="bg-white shadow-sm p-4 flex justify-between items-center sticky top-0 z-30 flex-shrink-0">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setSidebarOpen(true)}
@@ -119,7 +119,7 @@ const AdminLayout = () => {
                         <h2 className="text-lg font-semibold text-gray-700">Welcome, {user.username}</h2>
                     </div>
                 </header>
-                <div className="p-4 sm:p-6 lg:p-8">
+                <div className="p-4 sm:p-6 lg:p-8 flex-1">
                     <Outlet />
                 </div>
             </main>

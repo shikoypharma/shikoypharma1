@@ -165,14 +165,16 @@ const CorporateProfileForm = () => {
                 </div>
             </div>
 
-            <button
-                type="submit"
-                disabled={loading}
-                className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2"
-            >
-                <Save size={18} />
-                {loading ? "Saving..." : "Save Changes"}
-            </button>
+            <div className="sticky bottom-0 bg-white p-4 border-t mt-4 z-20 flex justify-end shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2"
+                >
+                    <Save size={18} />
+                    {loading ? "Saving..." : "Save Changes"}
+                </button>
+            </div>
         </form >
     );
 };
