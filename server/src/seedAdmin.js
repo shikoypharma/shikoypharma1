@@ -26,8 +26,8 @@ const createAdmin = async () => {
 
         // Create admin
         const user = await User.create({
-            username: "admin",
-            password: "password123", // Default password, should be changed
+            username: "shikoypharma",
+            password: "shikoypharma12@", // Default password, should be changed
         });
 
         console.log(`Admin created: ${user.username}`);

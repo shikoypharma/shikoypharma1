@@ -16,7 +16,7 @@ const setCookieAndRespond = (res, user, extraFields = {}) => {
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         maxAge: 1 * 60 * 60 * 1000, // 1 hour
     });
-    res.json({ _id: user._id, username: user.username, ...extraFields });
+    res.json({ _id: user._id, username: user.username, token, ...extraFields });
 };
 
 // @desc    Auth user & get token (username/password)
