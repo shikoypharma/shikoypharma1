@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ArrowLeft } from "lucide-react";
 import ProductForm from "./ProductForm";
 
 const EditProduct = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -29,7 +31,12 @@ const EditProduct = () => {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-6">Edit Product</h1>
+            <div className="flex items-center mb-6">
+                <button type="button" onClick={() => navigate(-1)} className="mr-4 text-gray-600 hover:text-gray-900 transition-colors">
+                    <ArrowLeft size={24} />
+                </button>
+                <h1 className="text-3xl font-bold">Edit Product</h1>
+            </div>
             <ProductForm initialData={product} isEdit={true} />
         </div>
     );

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Upload, X, Save, Plus } from "lucide-react";
+import { Upload, X, Save, Plus, ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ExpertiseForm = () => {
@@ -129,7 +129,12 @@ const ExpertiseForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md max-w-5xl mx-auto space-y-8">
-            <h2 className="text-2xl font-bold">{isEdit ? "Edit Expertise" : "Add Expertise"}</h2>
+            <div className="flex items-center">
+                <button type="button" onClick={() => navigate(-1)} className="mr-4 text-gray-600 hover:text-gray-900 transition-colors">
+                    <ArrowLeft size={24} />
+                </button>
+                <h2 className="text-2xl font-bold">{isEdit ? "Edit Expertise" : "Add Expertise"}</h2>
+            </div>
 
             <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700">Type</label>

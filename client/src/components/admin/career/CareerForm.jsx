@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Plus, X, Save } from "lucide-react";
+import { Plus, X, Save, ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const CareerForm = () => {
@@ -96,7 +96,12 @@ const CareerForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6">{isEdit ? "Edit Career Section" : "Add Career Section"}</h2>
+            <div className="flex items-center mb-6">
+                <button type="button" onClick={() => navigate(-1)} className="mr-4 text-gray-600 hover:text-gray-900 transition-colors">
+                    <ArrowLeft size={24} />
+                </button>
+                <h2 className="text-2xl font-bold">{isEdit ? "Edit Career Section" : "Add Career Section"}</h2>
+            </div>
 
             <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700">Title (e.g., Careers at Shikoy)</label>

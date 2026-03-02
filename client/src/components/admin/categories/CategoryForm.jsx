@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Upload, X, Plus, Save } from "lucide-react";
+import { Upload, X, Plus, Save, ArrowLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const CategoryForm = () => {
@@ -105,7 +105,12 @@ const CategoryForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6">{isEdit ? "Edit Category" : "Add Category"}</h2>
+            <div className="flex items-center mb-6">
+                <button type="button" onClick={() => navigate(-1)} className="mr-4 text-gray-600 hover:text-gray-900 transition-colors">
+                    <ArrowLeft size={24} />
+                </button>
+                <h2 className="text-2xl font-bold">{isEdit ? "Edit Category" : "Add Category"}</h2>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
